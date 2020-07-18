@@ -61,6 +61,8 @@ echo ================
 
 :: create install folder
 set install_folder=%cd%\install
+rmdir /Q /S "%install_folder%"
+:: create build folder
 mkdir %install_folder%
 
 :: clean build folder
