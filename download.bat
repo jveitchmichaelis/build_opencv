@@ -47,9 +47,17 @@ for /f "tokens=2 delims==" %%a in ("%build_world_text%") do (
 )
 echo build_world:%build_world%
 
-:: get visual_studio_version option from options file (6th line)
+:: get with_debug option from options file (6th line)
+set "with_debug_text="
+for /F "skip=5 delims=" %%i in (options.txt) do if not defined with_debug_text set "with_debug_text=%%i"
+for /f "tokens=2 delims==" %%a in ("%with_debug_text%") do (
+  set with_debug=%%a
+)
+echo with_debug:%with_debug%
+
+:: get visual_studio_version option from options file (7th line)
 set "visual_studio_version_text="
-for /F "skip=5 delims=" %%i in (options.txt) do if not defined visual_studio_version_text set "visual_studio_version_text=%%i"
+for /F "skip=6 delims=" %%i in (options.txt) do if not defined visual_studio_version_text set "visual_studio_version_text=%%i"
 for /f "tokens=2 delims==" %%a in ("%visual_studio_version_text%") do (
   set visual_studio_version=%%a
 )

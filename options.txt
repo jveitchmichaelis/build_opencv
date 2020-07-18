@@ -1,6 +1,7 @@
 opencv_version=3.4.11
-with_contrib=true
-with_cuda=true
+with_contrib=false
+with_cuda=false
 with_examples=true
 build_world=false
+with_debug=true
 visual_studio_version=Visual Studio 15 2017 Win64
