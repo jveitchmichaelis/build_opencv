@@ -55,9 +55,17 @@ for /f "tokens=2 delims==" %%a in ("%with_debug_text%") do (
 )
 echo with_debug:%with_debug%
 
-:: get visual_studio_version option from options file (7th line)
+:: get clean_on_build option from options file (7th line)
+set "clean_on_build_text="
+for /F "skip=6 delims=" %%i in (options.txt) do if not defined clean_on_build_text set "clean_on_build_text=%%i"
+for /f "tokens=2 delims==" %%a in ("%clean_on_build_text%") do (
+  set clean_on_build=%%a
+)
+echo clean_on_build:%clean_on_build%
+
+:: get visual_studio_version option from options file (8th line)
 set "visual_studio_version_text="
-for /F "skip=6 delims=" %%i in (options.txt) do if not defined visual_studio_version_text set "visual_studio_version_text=%%i"
+for /F "skip=7 delims=" %%i in (options.txt) do if not defined visual_studio_version_text set "visual_studio_version_text=%%i"
 for /f "tokens=2 delims==" %%a in ("%visual_studio_version_text%") do (
   set visual_studio_version=%%a
 )
@@ -71,7 +79,9 @@ echo ================
 set install_folder=%cd%\install
 set install_release_folder=%install_folder%\release
 set install_debug_folder=%install_folder%\debug
-rmdir /Q /S "%install_folder%"
+if "%clean_on_build%" == "true" (
+  rmdir /Q /S "%install_folder%"
+)
 :: create build folder
 mkdir %install_folder%
 mkdir %install_release_folder%
@@ -81,7 +91,9 @@ mkdir %install_debug_folder%
 set build_folder=%cd%\opencv\build
 set build_release_folder=%build_folder%\release
 set build_debug_folder=%build_folder%\debug
-rmdir /Q /S "%build_folder%"
+if "%clean_on_build%" == "true" (
+  rmdir /Q /S "%build_folder%"
+)
 :: create build folder
 mkdir %build_folder%
 mkdir %build_release_folder%
@@ -135,28 +147,32 @@ cmake -G "%visual_studio_version%" ^
     -D OPENCV_EXTRA_MODULES_PATH=%cmake_extra_modules_path% ^
     -D BUILD_EXAMPLES=%cmake_with_cuda% ..\..
 
+if "%with_debug%" == "true" (
+  :: build opencv debug
+  cd %build_debug_folder%
+  cmake -G "%visual_studio_version%" ^
+      -D CMAKE_BUILD_TYPE=DEBUG ^
+      -D CMAKE_INSTALL_PREFIX=%install_debug_folder% ^
+      -D BUILD_opencv_world=%cmake_build_world% ^
+      -D WITH_CUDA=%cmake_with_cuda% ^
+      -D ENABLE_FAST_MATH=%cmake_enable_fast_math% ^
+      -D CUDA_FAST_MATH=%cmake_cuda_fast_math% ^
+      -D WITH_CUBLAS=%cmake_with_cublas% ^
+      -D INSTALL_PYTHON_EXAMPLES=%cmake_with_cuda% ^
+      -D OPENCV_EXTRA_MODULES_PATH=%cmake_extra_modules_path% ^
+      -D BUILD_opencv_python=OFF ^
+      -D BUILD_opencv_python3=OFF ^
+      -D BUILD_opencv_python2=OFF ^
+      -D BUILD_EXAMPLES=%cmake_with_cuda% ..\..
+)
+
 :: install opencv release
 cmake --build . --config Release --target install
 
-:: build opencv debug
-cd %build_debug_folder%
-cmake -G "%visual_studio_version%" ^
-    -D CMAKE_BUILD_TYPE=DEBUG ^
-    -D CMAKE_INSTALL_PREFIX=%install_debug_folder% ^
-    -D BUILD_opencv_world=%cmake_build_world% ^
-    -D WITH_CUDA=%cmake_with_cuda% ^
-    -D ENABLE_FAST_MATH=%cmake_enable_fast_math% ^
-    -D CUDA_FAST_MATH=%cmake_cuda_fast_math% ^
-    -D WITH_CUBLAS=%cmake_with_cublas% ^
-    -D INSTALL_PYTHON_EXAMPLES=%cmake_with_cuda% ^
-    -D OPENCV_EXTRA_MODULES_PATH=%cmake_extra_modules_path% ^
-    -D BUILD_opencv_python=OFF ^
-    -D BUILD_opencv_python3=OFF ^
-    -D BUILD_opencv_python2=OFF ^
-    -D BUILD_EXAMPLES=%cmake_with_cuda% ..\..
-
-:: install opencv debug
-cmake --build . --config Debug --target install
+if "%with_debug%" == "true" (
+  :: install opencv debug
+  cmake --build . --config Debug --target install
+)
 
 :: reset working directory
 cd %initcwd%

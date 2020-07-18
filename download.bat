@@ -55,9 +55,17 @@ for /f "tokens=2 delims==" %%a in ("%with_debug_text%") do (
 )
 echo with_debug:%with_debug%
 
-:: get visual_studio_version option from options file (7th line)
+:: get clean_on_build option from options file (7th line)
+set "clean_on_build_text="
+for /F "skip=6 delims=" %%i in (options.txt) do if not defined clean_on_build_text set "clean_on_build_text=%%i"
+for /f "tokens=2 delims==" %%a in ("%clean_on_build_text%") do (
+  set clean_on_build=%%a
+)
+echo clean_on_build:%clean_on_build%
+
+:: get visual_studio_version option from options file (8th line)
 set "visual_studio_version_text="
-for /F "skip=6 delims=" %%i in (options.txt) do if not defined visual_studio_version_text set "visual_studio_version_text=%%i"
+for /F "skip=7 delims=" %%i in (options.txt) do if not defined visual_studio_version_text set "visual_studio_version_text=%%i"
 for /f "tokens=2 delims==" %%a in ("%visual_studio_version_text%") do (
   set visual_studio_version=%%a
 )
