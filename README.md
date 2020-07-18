@@ -25,8 +25,11 @@ If opencv should build opencv_world library or individual libraries (MUST be 'tr
 ### visual_studio_version
 Visual Studio version to use (MUST be full description used for cmake build e.g. 'Visual Studio 15 2017 Win64')
 
+## Run
+Use the 'run.bat' script to download and build opencv. This will use the options defined in 'options.txt' to define what to download and build.
+
 ## Download
-Use the 'download.bat' script to download opencv it's dependencies. This will use the options defined in 'options.txt' to define what to download.
+Use the 'download.bat' script to download opencv. This will use the options defined in 'options.txt' to define what to download.
 
 ## Build
 Use the 'build.bat' script to build opencv. This will use the options defined in 'options.txt' to define what to build.
