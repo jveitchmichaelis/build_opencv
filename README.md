@@ -18,6 +18,8 @@ Opencv version to use (MUST be full verson e.g. '3.4.11' NOT '3.4')
 If opencv's additional modules (opencv_contrib) package should be used (MUST be 'true' or 'false')
 ### with_cuda
 If opencv should be built with CUDA (MUST be 'true' or 'false')
+### with_examples
+If opencv should be build with examples (MUST be 'true' or 'false')
 ### build_world
 If opencv should build opencv_world library or individual libraries (MUST be 'true' or 'false')
 ### visual_studio_version
