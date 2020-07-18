@@ -1,8 +1,10 @@
 opencv_version=3.4.11
+visual_studio_version=Visual Studio 15 2017 Win64
+clean_on_build=false
 with_contrib=true
 with_cuda=true
 with_examples=true
 build_world=false
 with_debug=true
-clean_on_build=true
-visual_studio_version=Visual Studio 15 2017 Win64
+with_python_release=true
+with_python_debug=false
