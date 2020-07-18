@@ -133,7 +133,7 @@ cmake -G "%visual_studio_version%" ^
     -D WITH_CUBLAS=%cmake_with_cublas% ^
     -D INSTALL_PYTHON_EXAMPLES=%cmake_with_cuda% ^
     -D OPENCV_EXTRA_MODULES_PATH=%cmake_extra_modules_path% ^
-    -D BUILD_EXAMPLES=%cmake_with_cuda% ..
+    -D BUILD_EXAMPLES=%cmake_with_cuda% ..\..
 
 :: install opencv release
 cmake --build . --config Release --target install
@@ -150,7 +150,8 @@ cmake -G "%visual_studio_version%" ^
     -D WITH_CUBLAS=%cmake_with_cublas% ^
     -D INSTALL_PYTHON_EXAMPLES=%cmake_with_cuda% ^
     -D OPENCV_EXTRA_MODULES_PATH=%cmake_extra_modules_path% ^
-    -D BUILD_EXAMPLES=%cmake_with_cuda% ..
+    -D BUILD_opencv_python=OFF ^
+    -D BUILD_EXAMPLES=%cmake_with_cuda% ..\..
 
 :: install opencv debug
 cmake --build . --config Debug --target install

@@ -28,6 +28,7 @@ If opencv should build opencv_world library or individual libraries (MUST be 'tr
 ### with_debug
 If opencv should build debug libraries (MUST be 'true' or 'false')
 *Note: This will more than double build times*
+*Note: Python will be turned off for the debug build*
 ### visual_studio_version
 Visual Studio version to use (MUST be full description used for cmake build e.g. 'Visual Studio 15 2017 Win64')
 
