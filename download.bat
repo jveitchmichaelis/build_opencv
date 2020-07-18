@@ -17,7 +17,7 @@ echo opencv_version:%opencv_version%
 
 :: get visual_studio_version option from options file (2nd line)
 set "visual_studio_version_text="
-for /F "skip=3 delims=" %%i in (options.txt) do if not defined visual_studio_version_text set "visual_studio_version_text=%%i"
+for /F "skip=1 delims=" %%i in (options.txt) do if not defined visual_studio_version_text set "visual_studio_version_text=%%i"
 for /f "tokens=2 delims==" %%a in ("%visual_studio_version_text%") do (
   set visual_studio_version=%%a
 )
@@ -25,7 +25,7 @@ echo visual_studio_version:%visual_studio_version%
 
 :: get clean_on_build option from options file (3rd line)
 set "clean_on_build_text="
-for /F "skip=4 delims=" %%i in (options.txt) do if not defined clean_on_build_text set "clean_on_build_text=%%i"
+for /F "skip=2 delims=" %%i in (options.txt) do if not defined clean_on_build_text set "clean_on_build_text=%%i"
 for /f "tokens=2 delims==" %%a in ("%clean_on_build_text%") do (
   set clean_on_build=%%a
 )
@@ -33,7 +33,7 @@ echo clean_on_build:%clean_on_build%
 
 :: get with_contrib option from options file (4th line)
 set "with_contrib_text="
-for /F "skip=5 delims=" %%i in (options.txt) do if not defined with_contrib_text set "with_contrib_text=%%i"
+for /F "skip=3 delims=" %%i in (options.txt) do if not defined with_contrib_text set "with_contrib_text=%%i"
 for /f "tokens=2 delims==" %%a in ("%with_contrib_text%") do (
   set with_contrib=%%a
 )
@@ -41,7 +41,7 @@ echo with_contrib:%with_contrib%
 
 :: get with_cuda option from options file (5th line)
 set "with_cuda_text="
-for /F "skip=6 delims=" %%i in (options.txt) do if not defined with_cuda_text set "with_cuda_text=%%i"
+for /F "skip=4 delims=" %%i in (options.txt) do if not defined with_cuda_text set "with_cuda_text=%%i"
 for /f "tokens=2 delims==" %%a in ("%with_cuda_text%") do (
   set with_cuda=%%a
 )
@@ -49,7 +49,7 @@ echo with_cuda:%with_cuda%
 
 :: get with_examples option from options file (6th line)
 set "with_examples_text="
-for /F "skip=7 delims=" %%i in (options.txt) do if not defined with_examples_text set "with_examples_text=%%i"
+for /F "skip=5 delims=" %%i in (options.txt) do if not defined with_examples_text set "with_examples_text=%%i"
 for /f "tokens=2 delims==" %%a in ("%with_examples_text%") do (
   set with_examples=%%a
 )
@@ -57,7 +57,7 @@ echo with_examples:%with_examples%
 
 :: get build_world option from options file (7th line)
 set "build_world_text="
-for /F "skip=8 delims=" %%i in (options.txt) do if not defined build_world_text set "build_world_text=%%i"
+for /F "skip=6 delims=" %%i in (options.txt) do if not defined build_world_text set "build_world_text=%%i"
 for /f "tokens=2 delims==" %%a in ("%build_world_text%") do (
   set build_world=%%a
 )
@@ -65,7 +65,7 @@ echo build_world:%build_world%
 
 :: get with_debug option from options file (8th line)
 set "with_debug_text="
-for /F "skip=9 delims=" %%i in (options.txt) do if not defined with_debug_text set "with_debug_text=%%i"
+for /F "skip=7 delims=" %%i in (options.txt) do if not defined with_debug_text set "with_debug_text=%%i"
 for /f "tokens=2 delims==" %%a in ("%with_debug_text%") do (
   set with_debug=%%a
 )
@@ -73,7 +73,7 @@ echo with_debug:%with_debug%
 
 :: get with_python_release option from options file (9th line)
 set "with_python_release_text="
-for /F "skip=10 delims=" %%i in (options.txt) do if not defined with_python_release_text set "with_python_release_text=%%i"
+for /F "skip=8 delims=" %%i in (options.txt) do if not defined with_python_release_text set "with_python_release_text=%%i"
 for /f "tokens=2 delims==" %%a in ("%with_python_release_text%") do (
   set with_python_release=%%a
 )
@@ -81,7 +81,7 @@ echo with_python_release:%with_python_release%
 
 :: get with_python_release option from options file (10th line)
 set "with_python_debug_text="
-for /F "skip=6 delims=" %%i in (options.txt) do if not defined with_python_debug_text set "with_python_debug_text=%%i"
+for /F "skip=9 delims=" %%i in (options.txt) do if not defined with_python_debug_text set "with_python_debug_text=%%i"
 for /f "tokens=2 delims==" %%a in ("%with_python_debug_text%") do (
   set with_python_debug=%%a
 )
