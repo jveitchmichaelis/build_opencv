@@ -18,8 +18,9 @@ Opencv version to use (MUST be full verson e.g. '3.4.11' NOT '3.4')
 If opencv's additional modules (opencv_contrib) package should be used (MUST be 'true' or 'false')  
 *Note: You cannot build opencv_world if you are using contrib modules.*
 ### with_cuda
-If opencv should be built with CUDA (MUST be 'true' or 'false')  
-*Note: You cannot build with cuda without enabling 'with_contrib'.*  
+If opencv should be built with CUDA (MUST be 'true' or 'false') 
+*Note: This will dramatically increase build time. NVCC builds take a long time.*
+*Note: You cannot build with cuda without enabling 'with_contrib'.*
 ### with_examples
 If opencv should be build with examples (MUST be 'true' or 'false')
 ### build_world
