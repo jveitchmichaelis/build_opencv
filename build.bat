@@ -151,6 +151,8 @@ cmake -G "%visual_studio_version%" ^
     -D INSTALL_PYTHON_EXAMPLES=%cmake_with_cuda% ^
     -D OPENCV_EXTRA_MODULES_PATH=%cmake_extra_modules_path% ^
     -D BUILD_opencv_python=OFF ^
+    -D BUILD_opencv_python3=OFF ^
+    -D BUILD_opencv_python2=OFF ^
     -D BUILD_EXAMPLES=%cmake_with_cuda% ..\..
 
 :: install opencv debug
