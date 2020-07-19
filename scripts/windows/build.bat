@@ -9,6 +9,10 @@ cd ..\..\
 echo ================
 echo Build Options
 echo ================
+:: get version from options file (1st line)
+set /p opencv_version_text=< options.txt
+set "opencv_version=%opencv_version_text:*^==%"
+echo opencv_version:%opencv_version%
 
 :: get visual_studio_version option from options file (2nd line)
 set "visual_studio_version_text="
