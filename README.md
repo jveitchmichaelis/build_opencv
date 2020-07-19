@@ -67,7 +67,7 @@ Should you require additional build options you can specify them here.
 Check section on 'OpenCV options used' to make sure your build options do not collide with options already being used. Options will be added to both release and debug if debug is enabled. Build options can contain multiple options but should be a single line and should be standard cmake format:
 ```
 ...
-custom_build_options=-D BUILD_opencv_dnn=OFF
+custom_build_options$=-D BUILD_opencv_dnn=OFF
 ...
 ```
 When this options not used, this should be 'NA'. 
@@ -75,7 +75,7 @@ When this options not used, this should be 'NA'.
 ### custom_build [cmake build options]
 Should you require a completely custom build and want to override all options you can use this option. This will ignore all previously defined options (other than the 'opencv_version' and 'visual_studio_version'). Build options can contain multiple options but should be a single line and should be standard cmake format:
 ```
-custom_build_options=-D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX="C:/Program Files (x86)/opencv" -D WITH_CUDA=ON -D WITH_CUBLAS=OFF
+custom_build_options$=-D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX="C:/Program Files (x86)/opencv" -D WITH_CUDA=ON -D WITH_CUBLAS=OFF
 ```
 
 ## FAQ
