@@ -3,8 +3,10 @@ visual_studio_version=Visual Studio 15 2017 Win64
 clean_on_build=false
 with_contrib=true
 with_cuda=true
-with_examples=true
+with_examples=false
 build_world=false
 with_debug=true
 with_python_release=true
 with_python_debug=false
+additional_build_options=-D BUILD_JAVA=OFF
+custom_build_options=NA
