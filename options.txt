@@ -1,4 +1,4 @@
-opencv_version$=3.4.11
+opencv_version$=4.4.0
 visual_studio_version$=Visual Studio 15 2017 Win64
 clean_on_build$=false
 with_contrib$=true
@@ -9,4 +9,4 @@ with_debug$=true
 with_python_release$=true
 with_python_debug$=false
 additional_build_options$=-D BUILD_JAVA=OFF
-custom_build_options$=NA
+custom_build_options$=-D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=C:/Program Files (x86)/opencv -D WITH_CUDA=ON -D WITH_CUBLAS=OFF

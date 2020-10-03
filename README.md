@@ -62,7 +62,7 @@ If opencv release build should be built with python. (MUST be 'true' or 'false')
 If opencv release build should be built with python. (MUST be 'true' or 'false')  
 *Note: Python is usually turned off for debug build as python doesn't ship with debug dll by default.*  
 *Note: The python version will automatically be selected from whatever is installed. This is handelled internally by the opencv cmake.
-### additional_build_options [cmake build options]
+### additional_build_options [cmake build options] (COMING SOON)
 Should you require additional build options you can specify them here.
 Check section on 'OpenCV options used' to make sure your build options do not collide with options already being used. Options will be added to both release and debug if debug is enabled. Build options can contain multiple options but should be a single line and should be standard cmake format:
 ```
@@ -71,8 +71,7 @@ custom_build_options$=-D BUILD_opencv_dnn=OFF
 ...
 ```
 When this options not used, this should be 'NA'. 
-
-### custom_build [cmake build options]
+### custom_build [cmake build options] (COMING SOON)
 Should you require a completely custom build and want to override all options you can use this option. This will ignore all previously defined options (other than the 'opencv_version' and 'visual_studio_version'). Build options can contain multiple options but should be a single line and should be standard cmake format:
 ```
 custom_build_options$=-D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX="C:/Program Files (x86)/opencv" -D WITH_CUDA=ON -D WITH_CUBLAS=OFF
@@ -93,8 +92,10 @@ I currently have no need to include java and don't have time to explore this bui
 OpenCV can take a few hours to build, especially if building extra modules, CUDA or debug. If a build need to be interrupted and continued later, you can press CTRL+C to cancel the build. To resume the build at a later date make sure you set 'clean_on_build' to 'false'. 
 
 ## Future improvements
+ - [ ] Custom and addition cmake commands
  - [ ] Test OpenCV v4.4.0
  - [ ] Check combinations of build options for valid selection (e.g. with_contib required if with_cuda is true)
+ - [ ] Replace ugly '$=' with '=' in options file
  - [ ] Add Linux support (See [here]() for progress)
  - [ ] Add static library support
  - [ ] Add addition options support (e.g. OPENCV_ENABLE_NONFREE, )

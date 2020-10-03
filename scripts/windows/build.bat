@@ -1,5 +1,5 @@
 @echo off
-setlocal
+setlocal ENABLEDELAYEDEXPANSION
 :: set working directory to script directory
 SET initcwd=%cd%
 SET scriptpath=%~dp0
@@ -79,19 +79,21 @@ for /f "tokens=2 delims=$" %%a in ("%with_python_debug_text%") do ( set with_pyt
 set with_python_debug=%with_python_debug:~1,-1%
 echo with_python_debug:%with_python_debug%
 
+set additional_build_options=NA
 :: get additional_build_options option from options file (11th line)
-set "additional_build_options_text="
-for /F "skip=10 delims=" %%i in (options.txt) do if not defined additional_build_options_text set "additional_build_options_text=%%i"
-for /f "tokens=2 delims=$" %%a in ("%additional_build_options_text%") do ( set additional_build_options=%%a )
-set additional_build_options=%additional_build_options:~1,-1%
-echo additional_build_options:%additional_build_options%
+::set "additional_build_options_text="
+::for /F "skip=10 delims=" %%i in (options.txt) do if not defined additional_build_options_text set "additional_build_options_text=%%i"
+::for /f "tokens=2 delims=$" %%a in ("%additional_build_options_text%") do ( set additional_build_options=%%a )
+::set additional_build_options=%additional_build_options:~1,-1%
+::echo additional_build_options:%additional_build_options%
 
+set custom_build_options=NA
 :: get custom_build_options option from options file (12th line)
-set "custom_build_options_text="
-for /F "skip=11 delims=" %%i in (options.txt) do if not defined custom_build_options_text set "custom_build_options_text=%%i"
-for /f "tokens=2 delims=$" %%a in ("%custom_build_options_text%") do ( set custom_build_options=%%a )
-set custom_build_options=%custom_build_options:~1,-1%
-echo custom_build_options:%custom_build_options%
+::set "custom_build_options_text="
+::for /F "skip=11 delims=" %%i in (options.txt) do if not defined custom_build_options_text set "custom_build_options_text=%%i"
+::for /f "tokens=2 delims=$" %%a in ("%custom_build_options_text%") do ( set custom_build_options=%%a )
+::set custom_build_options=%custom_build_options:~1,-1%
+::echo custom_build_options:%custom_build_options%
 
 echo ================
 
@@ -113,37 +115,41 @@ if "%custom_build_options%" == "NA" (
   )
 
   :: define build folders
+  set build_release_folder=!build_folder!
+  
   if "%with_debug%" == "true" (
     set build_release_folder=%build_folder%\release
-  ) else (
-    set build_release_folder=%build_folder%
   )
   set build_debug_folder=%build_folder%\debug
 
   if "%with_debug%" == "true" (
     :: create release and debug folders
-    mkdir %build_release_folder%
-    mkdir %build_debug_folder%
+    mkdir !build_release_folder!
+    mkdir !build_debug_folder!
   )
 
   :: define install folders
   set install_folder=%cd%\install
+  set install_release_folder=!install_folder!
   if "%with_debug%" == "true" (
     set install_release_folder=%install_folder%\release
-  ) else (
-    set install_release_folder=%install_folder%
   )
   set install_debug_folder=%install_folder%\debug
+
+  echo !install_release_folder!
+  echo !install_debug_folder!
+
+  pause
 
   :: clean install folder
   if "%clean_on_build%" == "true" (
     rmdir /Q /S "%install_folder%"
   )
   :: create install folders
-  mkdir %install_folder%
+  mkdir !install_folder!
   if "%with_debug%" == "true" (
-    mkdir %install_release_folder%
-    mkdir %install_debug_folder%
+    mkdir !install_release_folder!
+    mkdir !install_debug_folder!
   )
 
   :: define python_release as on/off
