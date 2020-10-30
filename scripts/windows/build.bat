@@ -118,9 +118,9 @@ if "%custom_build_options%" == "NA" (
   set build_release_folder=!build_folder!
   
   if "%with_debug%" == "true" (
-    set build_release_folder=%build_folder%\release
+    set build_release_folder=!build_folder!\release
   )
-  set build_debug_folder=%build_folder%\debug
+  set build_debug_folder=!build_folder!\debug
 
   if "%with_debug%" == "true" (
     :: create release and debug folders
@@ -132,18 +132,13 @@ if "%custom_build_options%" == "NA" (
   set install_folder=%cd%\install
   set install_release_folder=!install_folder!
   if "%with_debug%" == "true" (
-    set install_release_folder=%install_folder%\release
+    set install_release_folder=!install_folder!\release
   )
-  set install_debug_folder=%install_folder%\debug
-
-  echo !install_release_folder!
-  echo !install_debug_folder!
-
-  pause
+  set install_debug_folder=!install_folder!\debug
 
   :: clean install folder
   if "%clean_on_build%" == "true" (
-    rmdir /Q /S "%install_folder%"
+    rmdir /Q /S "!install_folder!"
   )
   :: create install folders
   mkdir !install_folder!
@@ -209,50 +204,51 @@ if "%custom_build_options%" == "NA" (
   )
 
   :: build opencv release
-  cd %build_release_folder%
-  cmake -G "%visual_studio_version%" ^
+  cd !build_release_folder!
+
+  cmake -G !visual_studio_version! ^
       -D CMAKE_BUILD_TYPE=RELEASE ^
-      -D CMAKE_INSTALL_PREFIX=%install_release_folder% ^
-      -D BUILD_opencv_world=%cmake_build_world% ^
-      -D WITH_CUDA=%cmake_with_cuda% ^
-      -D ENABLE_FAST_MATH=%cmake_enable_fast_math% ^
-      -D CUDA_FAST_MATH=%cmake_cuda_fast_math% ^
-      -D WITH_CUBLAS=%cmake_with_cublas% ^
-      -D INSTALL_PYTHON_EXAMPLES=%cmake_build_python_release_examples% ^
-      -D OPENCV_EXTRA_MODULES_PATH=%cmake_extra_modules_path% ^
-      -D BUILD_opencv_python=%cmake_python_release% ^
-      -D BUILD_opencv_python3=%cmake_python_release% ^
-      -D BUILD_opencv_python2=%cmake_python_release% ^
-      -D BUILD_EXAMPLES=%cmake_build_examples% ^
-      %cmake_addition_build_options% ..\..
+      -D CMAKE_INSTALL_PREFIX=!install_release_folder! ^
+      -D BUILD_opencv_world=!cmake_build_world! ^
+      -D WITH_CUDA=!cmake_with_cuda! ^
+      -D ENABLE_FAST_MATH=!cmake_enable_fast_math! ^
+      -D CUDA_FAST_MATH=!cmake_cuda_fast_math! ^
+      -D WITH_CUBLAS=!cmake_with_cublas! ^
+      -D INSTALL_PYTHON_EXAMPLES=!cmake_build_python_release_examples! ^
+      -D OPENCV_EXTRA_MODULES_PATH=!cmake_extra_modules_path! ^
+      -D BUILD_opencv_python=!cmake_python_release! ^
+      -D BUILD_opencv_python3=!cmake_python_release! ^
+      -D BUILD_opencv_python2=!cmake_python_release! ^
+      -D BUILD_EXAMPLES=!cmake_build_examples! ^
+      !cmake_addition_build_options! ..\..
 
   if "%with_debug%" == "true" (
     :: build opencv debug
-    cd %build_debug_folder%
-    cmake -G "%visual_studio_version%" ^
+    cd !build_debug_folder!
+    cmake -G !visual_studio_version! ^
         -D CMAKE_BUILD_TYPE=DEBUG ^
-        -D CMAKE_INSTALL_PREFIX=%install_debug_folder% ^
-        -D BUILD_opencv_world=%cmake_build_world% ^
-        -D WITH_CUDA=%cmake_with_cuda% ^
-        -D ENABLE_FAST_MATH=%cmake_enable_fast_math% ^
-        -D CUDA_FAST_MATH=%cmake_cuda_fast_math% ^
-        -D WITH_CUBLAS=%cmake_with_cublas% ^
-        -D INSTALL_PYTHON_EXAMPLES=%cmake_build_python_debug_examples% ^
-        -D OPENCV_EXTRA_MODULES_PATH=%cmake_extra_modules_path% ^
-        -D BUILD_opencv_python=%cmake_python_debug% ^
-        -D BUILD_opencv_python3=%cmake_python_debug% ^
-        -D BUILD_opencv_python2=%cmake_python_debug% ^
-        -D BUILD_EXAMPLES=%cmake_build_examples% ^
-        %cmake_addition_build_options% ..\..
+        -D CMAKE_INSTALL_PREFIX=!install_debug_folder! ^
+        -D BUILD_opencv_world=!cmake_build_world! ^
+        -D WITH_CUDA=!cmake_with_cuda! ^
+        -D ENABLE_FAST_MATH=!cmake_enable_fast_math! ^
+        -D CUDA_FAST_MATH=!cmake_cuda_fast_math! ^
+        -D WITH_CUBLAS=!cmake_with_cublas! ^
+        -D INSTALL_PYTHON_EXAMPLES=!cmake_build_python_debug_examples! ^
+        -D OPENCV_EXTRA_MODULES_PATH=!cmake_extra_modules_path! ^
+        -D BUILD_opencv_python=!cmake_python_debug! ^
+        -D BUILD_opencv_python3=!cmake_python_debug! ^
+        -D BUILD_opencv_python2=!cmake_python_debug! ^
+        -D BUILD_EXAMPLES=!cmake_build_examples! ^
+        !cmake_addition_build_options! ..\..
   )
 
   :: install opencv release
-  cd %build_release_folder%
+  cd !build_release_folder!
   cmake --build . --config Release --target install
 
   if "%with_debug%" == "true" (
     :: install opencv debug
-    cd %build_debug_folder%
+    cd !build_debug_folder!
     cmake --build . --config Debug --target install
   )
 ) else (
