@@ -81,11 +81,11 @@ echo with_python_debug:%with_python_debug%
 
 set additional_build_options=NA
 :: get additional_build_options option from options file (11th line)
-::set "additional_build_options_text="
-::for /F "skip=10 delims=" %%i in (options.txt) do if not defined additional_build_options_text set "additional_build_options_text=%%i"
-::for /f "tokens=2 delims=$" %%a in ("%additional_build_options_text%") do ( set additional_build_options=%%a )
-::set additional_build_options=%additional_build_options:~1,-1%
-::echo additional_build_options:%additional_build_options%
+set "additional_build_options_text="
+for /F "skip=10 delims=" %%i in (options.txt) do if not defined additional_build_options_text set "additional_build_options_text=%%i"
+for /f "tokens=2 delims=$" %%a in ("%additional_build_options_text%") do ( set additional_build_options=%%a )
+set additional_build_options=%additional_build_options:~1,-1%
+echo additional_build_options:%additional_build_options%
 
 set custom_build_options=NA
 :: get custom_build_options option from options file (12th line)
@@ -112,6 +112,8 @@ if "%custom_build_options%" == "NA" (
   :: empty addition build options if NA
   if "%additional_build_options%" == "NA" (
     set cmake_addition_build_options=""
+  ) else (
+    set cmake_addition_build_options=!additional_build_options!
   )
 
   :: define build folders
@@ -255,7 +257,7 @@ if "%custom_build_options%" == "NA" (
   :: build opencv with custom build options
   cmake -G "%visual_studio_version%" %custom_build_options% ..\..
   :: install opencv
-  cmake --build . --config Release --target install
+  cmake --build . --config Release --target install --parallel 6 -j 6
 )
 
 :: reset working directory
