@@ -2,24 +2,16 @@
 Easy build OpenCV.
 
 ## Releases
-To save you some time checkout if the opencv builds in releases of this repo matches the setup you are looking for first! [Releases](https://github.com/i3drobotics/build_opencv/releases)
+To save you some time checkout if the pre-built opencv binaries in releases of this repo for the configuration you are looking for first! [Releases](https://github.com/i3drobotics/build_opencv/releases)
 
 ## About
 Scripts are provided in this repository to make building opencv from source simple and pain free.
 While a lot of the options provided here are the same as running cmake this approach helps to avoid missing to tick an important box or getting a path wrong by providing options in an easy to read text file. Also each option is documented in this readme along with some notes on possible issues associated with it.
 
-To prove why this is needed see [here]() for the full list of possible cmake options for OpenCV v3.4.11.
-
 ## Requirements
  - git
  - cmake
  - visual studio
-
-## Compatiblity
-Tested on OpenCV v3.4.11
- - Visual Studio 15 2017 Win64
- - Visual Studio 15 2017 Win64 with extra modules
- - Visual Studio 15 2017 Win64 with CUDA 10.2
 
 ## Run
 Use the 'run.bat' script to download and build opencv. One script does everything!. This will use the options defined in 'options.txt' to define what to download and build. Once complete a folder named 'install' will have the full opencv install. 
@@ -62,7 +54,7 @@ If opencv release build should be built with python. (MUST be 'true' or 'false')
 If opencv release build should be built with python. (MUST be 'true' or 'false')  
 *Note: Python is usually turned off for debug build as python doesn't ship with debug dll by default.*  
 *Note: The python version will automatically be selected from whatever is installed. This is handelled internally by the opencv cmake.
-### additional_build_options [cmake build options] (COMING SOON)
+### additional_build_options [cmake build options]
 Should you require additional build options you can specify them here.
 Check section on 'OpenCV options used' to make sure your build options do not collide with options already being used. Options will be added to both release and debug if debug is enabled. Build options can contain multiple options but should be a single line and should be standard cmake format:
 ```
@@ -92,18 +84,16 @@ I currently have no need to include java and don't have time to explore this bui
 OpenCV can take a few hours to build, especially if building extra modules, CUDA or debug. If a build need to be interrupted and continued later, you can press CTRL+C to cancel the build. To resume the build at a later date make sure you set 'clean_on_build' to 'false'. 
 
 ## Future improvements
- - [ ] Custom and addition cmake commands
- - [ ] Test OpenCV v4.4.0
+ - [ ] Custom build options
  - [ ] Check combinations of build options for valid selection (e.g. with_contib required if with_cuda is true)
  - [ ] Replace ugly '$=' with '=' in options file
- - [ ] Add Linux support (See [here]() for progress)
+ - [ ] Add Linux support
  - [ ] Add static library support
- - [ ] Add addition options support (e.g. OPENCV_ENABLE_NONFREE, )
  - [ ] Add Mac support
  - [ ] Add Java support
 
 ## OpenCV options used
-The following list is the cmake options used by this repo. See [here]() for the full list of all possible cmake options. 
+The following list is the cmake options used by this repo. If you want to change options not listed here then use additional_build_options in options file. 
  - [x] CMAKE_BUILD_TYPE
  - [x] CMAKE_INSTALL_PREFIX
  - [x] BUILD_opencv_world
