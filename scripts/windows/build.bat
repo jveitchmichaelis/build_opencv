@@ -246,12 +246,12 @@ if "%custom_build_options%" == "NA" (
 
   :: install opencv release
   cd !build_release_folder!
-  cmake --build . --config Release --target install
+  cmake --build . --config Release --target install --parallel 6 -j 6
 
   if "%with_debug%" == "true" (
     :: install opencv debug
     cd !build_debug_folder!
-    cmake --build . --config Debug --target install
+    cmake --build . --config Debug --target install --parallel 6 -j 6
   )
 ) else (
   :: build opencv with custom build options
