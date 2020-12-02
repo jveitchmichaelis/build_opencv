@@ -206,8 +206,6 @@ if [ "$custom_build_options" == "NA" ]; then
 
     # build opencv release
     cd $build_release_folder
-    echo $build_release_folder
-    #read  -n 1 -p "Input Selection:" mainmenuinput
 
     cmake \
       -D CMAKE_BUILD_TYPE=RELEASE \
@@ -224,8 +222,6 @@ if [ "$custom_build_options" == "NA" ]; then
       -D BUILD_opencv_python2=$cmake_python_release \
       -D BUILD_EXAMPLES=$cmake_build_examples \
       $cmake_addition_build_options ../..
-
-    read  -n 1 -p "Input Selection:" mainmenuinput
 
     if [ "$with_debug" == "true" ]; then
         # build opencv debug
@@ -259,7 +255,6 @@ if [ "$custom_build_options" == "NA" ]; then
         make install
     fi
 else
-    read  -n 1 -p "Input Selection:" mainmenuinput
     # build opencv with custom build options
     cmake $custom_build_options% ../..
     # install opencv
