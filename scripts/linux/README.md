@@ -1,17 +1,9 @@
-# Linux helper scripts [DO NOT USE]
-Development of linux scripts is in progress but not yet ready for use.
+# Linux helper scripts
 
-## Progress
+## Features
+ - Download opencv
+ - Download opencv_contrib
+ - Build opencv using options file
 
-### Run
- - Waiting on download and build scripts to be completed
-
-### Download
-- [ ] Read options from file
-- [ ] Download opencv from github
-- [ ] Download opencv_contrin from github
-- [ ] Download dependencies
-
-### Build
-- [ ] Read options from file
-- [ ] Build opencv
+## Future improvements
+ - [ ] Check combinations of build options for valid selection (e.g. with_contib required if with_cuda is true)
