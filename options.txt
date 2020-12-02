@@ -1,6 +1,6 @@
 opencv_version$=4.5.0
 visual_studio_version$="Visual Studio 15 2017 Win64"
-clean_on_build$=false
+clean_on_build$=true
 with_contrib$=true
 with_cuda$=true
 with_examples$=false

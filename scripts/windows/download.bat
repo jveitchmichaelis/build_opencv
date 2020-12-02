@@ -4,7 +4,7 @@ setlocal
 SET initcwd=%cd%
 SET scriptpath=%~dp0
 cd %scriptpath:~0,-1%
-cd ..\..\
+cd %scriptpath%\..\..\
 
 echo ================
 echo Download Options
