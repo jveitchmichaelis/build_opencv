@@ -12,15 +12,11 @@ jobs:
       shell: cmd
       run: |
         .\download.bat options\options_opencv4.5.0_contrib_vc16.txt
-    - name: Installing vcpkg (windows)
+    - name: Build
+      working-directory: scripts/windows
       shell: cmd
       run: |
-        cd ..
-        git clone https://github.com/Microsoft/vcpkg.git
-        cd vcpkg
-        git checkout --force 2020.01
-        .\bootstrap-vcpkg.bat
-        .\vcpkg.exe install cppzmq:x64-windows
+        .\build.bat options\options_opencv4.5.0_contrib_vc16.txt
   
   build-linux:
     runs-on: ubuntu-latest
@@ -30,3 +26,7 @@ jobs:
       working-directory: scripts/linux
       run: |
         ./download.sh options/options_opencv4.5.0_contrib_vc16.txt
+    - name: Build OpenCV
+      working-directory: scripts/linux
+      run: |
+        ./build.sh options/options_opencv4.5.0_contrib_vc16.txt
