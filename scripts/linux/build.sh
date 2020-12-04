@@ -5,8 +5,14 @@
 SCRIPTPATH="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 cd $SCRIPTPATH/../..
 
+if [ $1 -eq 0 ]; then
+    options_filepath=options/options.txt
+else
+    options_filepath=$1
+fi
+
 # # read all lines in options file into array
-IFS=$'\n' read -d '' -r -a lines < options.txt
+IFS=$'\n' read -d '' -r -a lines < $options_filepath
 
 echo "================"
 echo "Build Options"
