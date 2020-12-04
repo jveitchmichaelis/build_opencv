@@ -12,7 +12,7 @@ jobs:
       shell: cmd
       run: |
         .\download.bat options\options_opencv4.5.0_contrib_vc16.txt
-    - name: Build
+    - name: Build OpenCV
       working-directory: scripts/windows
       shell: cmd
       run: |
