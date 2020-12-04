@@ -108,7 +108,7 @@ echo "================"
 # clean build folder
 build_folder=$PWD/opencv/build
 if [ "$clean_on_build" = "true" ]; then
-  rm -r $build_folder
+  rm -rf $build_folder
 fi
 # create build folder
 mkdir -p $build_folder
@@ -145,7 +145,7 @@ if [ "$custom_build_options" == "NA" ]; then
 
     # clean install folder
     if [ "$clean_on_build" == "true" ]; then
-        rmdir -r $install_folder
+        rm -rf $install_folder
     fi
     # create install folders
     mkdir -p $install_folder
@@ -210,6 +210,14 @@ if [ "$custom_build_options" == "NA" ]; then
         cmake_with_cublas=0
     fi
 
+    # install deps
+    sudo apt-get install libjpeg8-dev libtiff5-dev libjasper-dev libpng12-dev
+    sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev libv4l-dev
+    sudo apt-get install libxvidcore-dev libx264-dev
+    sudo apt-get install libgtk-3-dev
+    sudo apt-get install build-essential cmake pkg-config
+    sudo apt-get install libatlas-base-dev gfortran
+
     # build opencv release
     cd $build_release_folder
 
@@ -221,6 +229,7 @@ if [ "$custom_build_options" == "NA" ]; then
       -D ENABLE_FAST_MATH=$cmake_enable_fast_math \
       -D CUDA_FAST_MATH=$cmake_cuda_fast_math \
       -D WITH_CUBLAS=$cmake_with_cublas \
+      -D WITH_FFMPEG=1 \
       -D INSTALL_PYTHON_EXAMPLES=$cmake_build_python_release_examples \
       -D OPENCV_EXTRA_MODULES_PATH=$cmake_extra_modules_path \
       -D BUILD_opencv_python=$cmake_python_release \
@@ -240,6 +249,7 @@ if [ "$custom_build_options" == "NA" ]; then
             -D ENABLE_FAST_MATH=$cmake_enable_fast_math \
             -D CUDA_FAST_MATH=$cmake_cuda_fast_math \
             -D WITH_CUBLAS=$cmake_with_cublas \
+            -D WITH_FFMPEG=1 \
             -D INSTALL_PYTHON_EXAMPLES=$cmake_build_python_debug_examples \
             -D OPENCV_EXTRA_MODULES_PATH=$cmake_extra_modules_path \
             -D BUILD_opencv_python=$cmake_python_debug \
@@ -251,19 +261,19 @@ if [ "$custom_build_options" == "NA" ]; then
 
     # install opencv release
     cd $build_release_folder
-    make
+    make -j$((`nproc`+1))
     make install
 
     if [ "$with_debug" == "true" ]; then
         # install opencv debug
         cd $build_debug_folder
-        make
+        make -j$((`nproc`+1))
         make install
     fi
 else
     # build opencv with custom build options
     cmake $custom_build_options% ../..
     # install opencv
-    make
+    make -j$((`nproc`+1))
     make install
 fi
