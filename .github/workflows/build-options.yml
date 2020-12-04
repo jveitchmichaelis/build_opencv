@@ -1,4 +1,4 @@
-name: ROS Build
+name: Build options
 
 on: [push]
 
