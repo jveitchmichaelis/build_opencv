@@ -9,11 +9,11 @@ jobs:
     - uses: actions/checkout@v2
     - name: Download OpenCV repo/s
       working-directory: scripts/windows
-      shell: bash
+      shell: cmd
       run: |
-        download.bat options\options_opencv4.5.0_contrib_vc16.txt
+        .\download.bat options\options_opencv4.5.0_contrib_vc16.txt
     - name: Installing vcpkg (windows)
-      shell: bash
+      shell: cmd
       run: |
         cd ..
         git clone https://github.com/Microsoft/vcpkg.git
