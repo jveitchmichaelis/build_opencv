@@ -7,21 +7,26 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Setup msbuild
-      uses: microsoft/setup-msbuild@v1
-      with:
-        vs-version: '[16.4,16.5)'
-    - name: Download OpenCV
+    - name: Download OpenCV repo/s
       working-directory: scripts/windows
       shell: bash
       run: |
         download.bat options\options_opencv4.5.0_contrib_vc16.txt
+    - name: Installing vcpkg (windows)
+      shell: bash
+      run: |
+        cd ..
+        git clone https://github.com/Microsoft/vcpkg.git
+        cd vcpkg
+        git checkout --force 2020.01
+        .\bootstrap-vcpkg.bat
+        .\vcpkg.exe install cppzmq:x64-windows
   
   build-linux:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Download OpenCV
+    - name: Download OpenCV repo/s
       working-directory: scripts/linux
       run: |
         ./download.sh options/options_opencv4.5.0_contrib_vc16.txt
