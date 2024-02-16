@@ -23,6 +23,9 @@ jobs:
     - name: Download OpenCV repo/s
       run: |
         scripts/linux/download.sh $option_path
+    - name: Patch stdlib
+      run: |
+        sudo sed -i '/_S_nothrow_init<.*>/ s/^/    \/\/ /' /usr/include/c++/*/bits/std_function.h
     - name: Build OpenCV
       run: |
         scripts/linux/build.sh $option_path
