@@ -1,5 +1,28 @@
-# uses download link secure redirect link to avoid needing to join developer program 
-wget -O libcudnn8_8.0.5.39-1+cuda11.1_amd64.deb https://developer.download.nvidia.com/compute/machine-learning/cudnn/secure/8.0.5/11.1_20201106/Ubuntu16_04-x64/libcudnn8_8.0.5.39-1%2Bcuda11.1_amd64.deb?pqUXol3nvqRYPFtuFMLlzzSZ2g2VZ7GD75M9Ff4BgKykVwGpUWqeZ6Y1pgYl9pLJEs58N4d44r0c72KrkvMvBmtV6-unSh9nAV32sSO1tmGiw-hJ4SaH47GV4vtLPaIs8fvaQpL2mNkL-9J-kZubgcjouZLcohT41gB5JYaaO7Wa54ltxsPYNwUEb3NYVnE6YGN9fcApPPduV8ej5Cj8NuScBvwvWRKcBW94Cq8k37f5Rg
-wget -O libcudnn8-dev_8.0.5.39-1+cuda11.1_amd64.deb https://developer.download.nvidia.com/compute/machine-learning/cudnn/secure/8.0.5/11.1_20201106/Ubuntu16_04-x64/libcudnn8-dev_8.0.5.39-1%2Bcuda11.1_amd64.deb?E_1fGc1AOWyn1g1cXF5eBRqCAASR6uXAR49i5QzpMnoZDj4ug06R1WBY2ZdzuiFLxCSu0GKs5DNn7DbiTxosRvAvglGdQ1NOecY_2f7GngVemWOgy_QCRzV6ym77C0T3uKowbgHZ7OHNzjhISoN0DzM3Ic5hXiGdO4O2GRaePFxJrzBB7ABrfUMbY0X00JAEAvX2KqS_nOuk7npARzCW81PeEqzrvWWqh_HRHojOypnQ_N-WeqI
-sudo dpkg -i libcudnn8_8.0.5.39-1+cuda11.1_amd64.deb
-sudo dpkg -i libcudnn8-dev_8.0.5.39-1+cuda11.1_amd64.deb
+#!/bin/bash
+
+# Ensure the script is run with superuser privileges
+if [ "$(id -u)" != "0" ]; then
+   echo "This script must be run as root" 1>&2
+   exit 1
+fi
+
+# Tested inside Docker with very sparse images, where wget etc may not be installed
+apt-get update
+apt-get install -y lsb-release wget linux-headers-generic
+
+# Automatically detect the distribution and architecture
+distro=$(lsb_release -si | tr '[:upper:]' '[:lower:]')$(lsb_release -sr | tr -d '.')
+raw_arch=$(dpkg --print-architecture)
+if [ "$raw_arch" == "amd64" ]; then
+  arch="x86_64"
+else
+  arch=$raw_arch
+fi
+
+# From Lunar onwards, CUDA is present in the main package repo
+ubuntu_version=$(echo $distro | sed s/ubuntu//g)
+if [ $ubuntu_version -ge 2200 ]; then
+    apt-get -y install nvidia-cudnn
+else
+    apt-get install -y cudnn9-cuda-12
+fi

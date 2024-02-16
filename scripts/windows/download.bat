@@ -113,25 +113,11 @@ echo custom_build_options:%custom_build_options%
 echo ================
 
 :: download opencv repo
-git clone https://github.com/opencv/opencv.git
+git clone https://github.com/opencv/opencv.git --depth 1 -b %opencv_version%
 
 if "%with_contrib%" == "true" (
   :: download opencv_contrib repo
-  git clone https://github.com/opencv/opencv_contrib.git
-)
-
-:: checkout specific opencv version
-cd opencv
-git checkout tags/%opencv_version%
-:: reset working directory
-cd ..\
-
-if "%with_contrib%" == "true" (
-  :: checkout specific opencv_contrib version
-  cd opencv_contrib
-  git checkout tags/%opencv_version%
-  :: reset working directory
-  cd ..\
+  git clone https://github.com/opencv/opencv_contrib.git --depth 1 -b %opencv_version%
 )
 
 :: reset working directory

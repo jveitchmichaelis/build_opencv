@@ -1,10 +1,42 @@
-# Should be run with ligthdm off
-#sudo service lightdm stop
-wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-ubuntu1604.pin
-sudo mv cuda-ubuntu1604.pin /etc/apt/preferences.d/cuda-repository-pin-600
-sudo apt-key adv --fetch-keys http://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/7fa2af80.pub
-sudo add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/ /"
-sudo apt-get update
-sudo apt-get -y install cuda
-# Then restart lightdm (do not restart os before doing this)
-#sudo service lightdm restart
+#!/bin/bash
+
+# Ensure the script is run with superuser privileges
+if [ "$(id -u)" != "0" ]; then
+   echo "This script must be run as root" 1>&2
+   exit 1
+fi
+
+# Tested inside Docker with very sparse images, where wget etc may not be installed
+apt-get update
+apt-get install -y lsb-release wget linux-headers-generic
+
+# Automatically detect the distribution and architecture
+distro=$(lsb_release -si | tr '[:upper:]' '[:lower:]')$(lsb_release -sr | tr -d '.')
+raw_arch=$(dpkg --print-architecture)
+if [ "$raw_arch" == "amd64" ]; then
+  arch="x86_64"
+else
+  arch=$raw_arch
+fi
+
+# From Lunar onwards, CUDA is present in the main package repo
+ubuntu_version=$(echo $distro | sed s/ubuntu//g)
+if [ $ubuntu_version -ge 2000 ]; then
+    apt-get -y install nvidia-cuda-toolkit
+else
+    # Download the CUDA keyring package
+    wget "https://developer.download.nvidia.com/compute/cuda/repos/$distro/$arch/cuda-keyring_1.1-1_all.deb"
+
+    # Install the CUDA keyring package
+    dpkg -i cuda-keyring_1.1-1_all.deb
+
+    # Update the package lists
+    apt-get update
+
+    # Install CUDA
+    apt-get install -y cuda-toolkit
+    apt-get install -y nvidia-gds
+
+    # Clean up the downloaded package
+    rm cuda-keyring_1.1-1_all.deb
+fi
