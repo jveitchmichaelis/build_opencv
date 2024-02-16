@@ -21,7 +21,7 @@ fi
 
 # From Lunar onwards, CUDA is present in the main package repo
 ubuntu_version=$(echo $distro | sed s/ubuntu//g)
-if [ $ubuntu_version -ge 2200 ]; then
+if [ $ubuntu_version -ge 2300 ]; then
     apt-get -y install nvidia-cudnn
 else
     # Download the CUDA keyring package
@@ -32,7 +32,7 @@ else
 
     # Update the package lists
     apt-get update
-    
+
     # Clean up the downloaded package
     rm cuda-keyring_1.1-1_all.deb
 

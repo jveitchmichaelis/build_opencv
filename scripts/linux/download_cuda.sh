@@ -21,7 +21,7 @@ fi
 
 # From Lunar onwards, CUDA is present in the main package repo
 ubuntu_version=$(echo $distro | sed s/ubuntu//g)
-if [ $ubuntu_version -ge 2200 ]; then
+if [ $ubuntu_version -ge 2300 ]; then
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends nvidia-cuda-toolkit
 else
     # Download the CUDA keyring package
