@@ -259,13 +259,15 @@ if [ "$custom_build_options" == "NA" ]; then
             $cmake_addition_build_options ../..
     fi
 
-    if [ "$with_cuda" == "true" ]; then
-          export CUDNN_LIBRARY=/usr/local/cuda-12/lib64
+    if "$with_cuda" == "true" ]; then
+        export CUDNN_LIBRARY=/usr/local/cuda-12/lib64
+        export CC=gcc-10
+        export CXX=g++-10
     fi
 
     # install opencv release
     cd $build_release_folder
-    make -j$((`nproc`+1))
+    make -j$((`nproc`+1)) 
     make install
 
     if [ "$with_debug" == "true" ]; then
