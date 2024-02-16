@@ -2,6 +2,9 @@ name: Build non-CUDA options
 
 on: [push]
 
+env:
+  option_path: options\options_opencv4.9.0_contrib_vc16.txt
+
 jobs:    
   build-windows:
     runs-on: windows-latest
@@ -10,11 +13,11 @@ jobs:
     - name: Download OpenCV repo/s
       working-directory: scripts/windows
       shell: cmd
-      run: .\download.bat options\options_opencv4.9.0_contrib_vc16.txt
+      run: .\download.bat $option_path
     - name: Build OpenCV
       working-directory: scripts/windows
       shell: cmd
-      run: .\build.bat options\options_opencv4.9.0_contrib_vc16.txt
+      run: .\build.bat $option_path
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
       with:
@@ -29,13 +32,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Download OpenCV repo/s
-      working-directory: scripts/linux
       run: |
-        ./download.sh options/options_opencv4.9.0_contrib_vc16.txt
+        scripts/linux/download.sh $option_path
     - name: Build OpenCV
-      working-directory: scripts/linux
       run: |
-        ./build.sh options/options_opencv4.9.0_contrib_vc16.txt
+        scripts/linux/build.sh $option_path
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
       with:

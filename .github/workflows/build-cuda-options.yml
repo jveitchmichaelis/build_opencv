@@ -1,0 +1,33 @@
+name: Build CUDA options
+
+on: [push]
+
+env:
+  option_path: options/options_opencv4.9.0_contrib_cuda_cudnn_vc15.txt
+jobs:    
+  build-linux:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-20.04, ubuntu-22.04, ubuntu-23.04]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Download CUDA
+      working-directory: scripts/linux
+      run: |
+        sudo ./download_cuda.sh
+    - name: Download CUDNN
+      working-directory: scripts/linux
+      run: |
+        sudo ./download_cudnn.sh
+    - name: Download OpenCV repo/s
+      run: |
+        scripts/linux/download.sh $option_path
+    - name: Build OpenCV
+      run: |
+        scripts/linux/build.sh $option_path
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: Build artifact
+        path: install

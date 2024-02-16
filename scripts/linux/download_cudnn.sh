@@ -24,5 +24,17 @@ ubuntu_version=$(echo $distro | sed s/ubuntu//g)
 if [ $ubuntu_version -ge 2200 ]; then
     apt-get -y install nvidia-cudnn
 else
+    # Download the CUDA keyring package
+    wget "https://developer.download.nvidia.com/compute/cuda/repos/$distro/$arch/cuda-keyring_1.1-1_all.deb"
+
+    # Install the CUDA keyring package
+    dpkg -i cuda-keyring_1.1-1_all.deb
+
+    # Update the package lists
+    apt-get update
+    
+    # Clean up the downloaded package
+    rm cuda-keyring_1.1-1_all.deb
+
     apt-get install -y cudnn9-cuda-12
 fi
