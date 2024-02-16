@@ -211,7 +211,7 @@ if [ "$custom_build_options" == "NA" ]; then
     fi
 
     # install deps
-    sudo apt-get install libjpeg8-dev libtiff5-dev libjasper-dev libpng12-dev
+    sudo apt-get install libjpeg-dev libtiff-dev libpng-dev
     sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev libv4l-dev
     sudo apt-get install libxvidcore-dev libx264-dev
     sudo apt-get install libgtk-3-dev
@@ -261,8 +261,6 @@ if [ "$custom_build_options" == "NA" ]; then
 
     if "$with_cuda" == "true" ]; then
         export CUDNN_LIBRARY=/usr/local/cuda-12/lib64
-        export CC=gcc-10
-        export CXX=g++-10
     fi
 
     # install opencv release
