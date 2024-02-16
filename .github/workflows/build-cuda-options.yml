@@ -3,7 +3,7 @@ name: Build CUDA options
 on: [push]
 
 env:
-  option_path: options/options_opencv4.9.0_contrib_cuda_cudnn_vc15.txt
+  option_path: options/options_opencv4.9.0_contrib_cuda_vc15.txt
 jobs:    
   build-linux:
     runs-on: ${{ matrix.os }}
