@@ -36,5 +36,5 @@ else
     # Clean up the downloaded package
     rm cuda-keyring_1.1-1_all.deb
 
-    apt-get install -y cudnn9-cuda-12
+    apt-get install -y libcudnn8 libcudnn8-dev
 fi
