@@ -1,4 +1,7 @@
 # Build OpenCV
+[![Build Ubuntu/CUDA](https://github.com/jveitchmichaelis/build_opencv/actions/workflows/build-cuda-options.yml/badge.svg?branch=auto_release)](https://github.com/jveitchmichaelis/build_opencv/actions/workflows/build-cuda-options.yml)
+[![Build Ubuntu](https://github.com/jveitchmichaelis/build_opencv/actions/workflows/build-options.yml/badge.svg?branch=auto_release)](https://github.com/jveitchmichaelis/build_opencv/actions/workflows/build-options.yml)
+
 Easy build OpenCV.
 
 ## Releases
