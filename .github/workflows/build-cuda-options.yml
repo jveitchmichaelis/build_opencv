@@ -5,6 +5,29 @@ on: push
 env:
   option_path: options/options_opencv4.9.0_contrib_cuda_cudnn_vc15.txt
 jobs:
+  build-windows:
+    runs-on: windows-2019
+    steps:
+    - uses: ilammy/msvc-dev-cmd@v1.4.1
+      with:
+        toolset: 16.0
+    - uses: Jimver/cuda-toolkit@v0.2.14
+      id: cuda-toolkit
+    - uses: actions/checkout@v2
+    - name: Download OpenCV repo/s
+      working-directory: scripts/windows
+      shell: cmd
+      run: .\download.bat options\options_opencv4.9.0_contrib_vc16.txt
+    - name: Build OpenCV
+      working-directory: scripts/windows
+      shell: cmd
+      run: .\build.bat options\options_opencv4.9.0_contrib_vc16.txt
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: Build artifact
+        path: install
+
   build-linux:
     runs-on: ubuntu-latest
     strategy:
@@ -28,7 +51,7 @@ jobs:
     - name: Setup things in container
       run: |
         apt-get update
-        apt-get install -y --no-install-recommends sudo wget git build-essential debconf-utils apt-utils dialog
+        apt-get install -y --no-install-recommends sudo wget git build-essential debconf-utils apt-utils dialog ca-certificates
         echo 'tzdata tzdata/Areas select Etc' | sudo debconf-set-selections
         echo 'tzdata tzdata/Zones/Etc select UTC' | sudo debconf-set-selections
         DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
