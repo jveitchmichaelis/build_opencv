@@ -216,11 +216,13 @@ if [ "$custom_build_options" == "NA" ]; then
     sudo apt-get install -y --no-install-recommends libxvidcore-dev libx264-dev
     sudo apt-get install -y --no-install-recommends libgtk-3-dev
     sudo apt-get install -y --no-install-recommends build-essential cmake pkg-config
-    sudo apt-get install -y --no-install-recommends libatlas-base-dev gfortran
+    sudo apt-get install -y --no-install-recommends libatlas-base-dev gfortran gcc-11 g++-11
 
     # build opencv release
     cd $build_release_folder
-
+    
+    export CC=gcc-11
+    export CXX=g++-11
     cmake \
       -D CMAKE_BUILD_TYPE=RELEASE \
       -D CMAKE_INSTALL_PREFIX=$install_release_folder \
