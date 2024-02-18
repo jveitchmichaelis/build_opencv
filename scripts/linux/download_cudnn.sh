@@ -24,8 +24,8 @@ export DEBIAN_FRONTEND=noninteractive
 # From Lunar onwards, CUDA is present in the main package repo
 ubuntu_version=$(echo $distro | sed s/ubuntu//g)
 if [ $ubuntu_version -ge 2300 ]; then
-    #echo "nvidia-cudnn nvidia-cudnn/license note" | sudo debconf-set-selections
-    #echo "nvidia-cudnn nvidia-cudnn/question select I Agree" | sudo debconf-set-selections
+    echo "nvidia-cudnn nvidia-cudnn/license note" | sudo debconf-set-selections
+    echo "nvidia-cudnn nvidia-cudnn/question select I Agree" | sudo debconf-set-selections
 
     apt-get install --no-install-recommends -y nvidia-cudnn
 else

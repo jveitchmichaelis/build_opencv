@@ -227,7 +227,9 @@ if [ "$custom_build_options" == "NA" ]; then
       -D BUILD_opencv_world=$cmake_build_world \
       -D WITH_CUDA=$cmake_with_cuda \
       -D ENABLE_FAST_MATH=$cmake_enable_fast_math \
-      -D CUDA_FAST_MATH=$cmake_cuda_fast_math \
+      -D CUDA_FAST_MATH=$cmake_cuda_fast_math \\
+      -D CUDA_ARCH_BIN="5.0 5.2 6.0 6.1 7.0 7.5 8.0 8.6 8.9 9.0" \
+      -D CUDA_ARCH_PTX="9.0" \
       -D WITH_CUBLAS=$cmake_with_cublas \
       -D WITH_FFMPEG=1 \
       -D INSTALL_PYTHON_EXAMPLES=$cmake_build_python_release_examples \
@@ -249,6 +251,8 @@ if [ "$custom_build_options" == "NA" ]; then
             -D ENABLE_FAST_MATH=$cmake_enable_fast_math \
             -D CUDA_FAST_MATH=$cmake_cuda_fast_math \
             -D WITH_CUBLAS=$cmake_with_cublas \
+            -D CUDA_ARCH_BIN="5.0 5.2 6.0 6.1 7.0 7.5 8.0 8.6 8.9 9.0" \
+            -D CUDA_ARCH_PTX="9.0" \
             -D WITH_FFMPEG=1 \
             -D INSTALL_PYTHON_EXAMPLES=$cmake_build_python_debug_examples \
             -D OPENCV_EXTRA_MODULES_PATH=$cmake_extra_modules_path \
