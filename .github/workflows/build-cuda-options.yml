@@ -1,6 +1,6 @@
 name: Build CUDA options
 
-on: [push]
+on: push
 
 env:
   option_path: options/options_opencv4.9.0_contrib_cuda_cudnn_vc15.txt
@@ -22,25 +22,52 @@ jobs:
         docker-images: true
         swap-storage: true
     - uses: actions/checkout@v2
+    
     - name: Download CUDA
       working-directory: scripts/linux
       run: |
         sudo ./download_cuda.sh
-    - name: Download CUDNN
+    
+    - name: Download CUDNN8
       working-directory: scripts/linux
       run: |
         sudo ./download_cudnn.sh
+    
     - name: Download OpenCV repo/s
       run: |
         scripts/linux/download.sh $option_path
+
+    - name: Determine CUDA and cuDNN Versions
+      run: |
+        echo "CUDA_VERSION=$(nvcc --version | grep release | sed 's/.*release //' | sed 's/,.*//')" >> $GITHUB_ENV
+        echo "CUDNN_VERSION=$(cat /usr/include/cudnn_version.h | grep CUDNN_MAJOR -A 2 | sed 's/#define CUDNN_MAJOR //' | tr '\n' '.' | sed 's/\.$//')" >> $GITHUB_ENV
+        echo $CUDNN_VERSION
+        echo $CUDA_VERSION
+    
     - name: Patch stdlib
       run: |
         sudo sed -i '/_S_nothrow_init<.*>/ s/^/    \/\/ /' /usr/include/c++/*/bits/std_function.h
+    
     - name: Build OpenCV
       run: |
         scripts/linux/build.sh $option_path
+
     - name: Upload build artifacts
       uses: actions/upload-artifact@v2
       with:
         name: Build artifact
         path: install
+
+    - name: Create Tarball
+      if: startsWith(github.ref, 'refs/tags/')
+      run: |
+        asset_name=opencv-${{github.ref.name}}-${{ matrix.os }}-cuda${CUDA_VERSION}-cudnn${CUDNN_VERSION}.tar.gz
+        tar -czvf ${asset_name} -C install
+        echo "ASSET_NAME=${asset_name}" >> $GITHUB_ENV
+
+    - name: Upload Release Asset
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: ${{ env.ASSET_NAME }}
+

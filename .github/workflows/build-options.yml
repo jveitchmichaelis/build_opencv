@@ -1,6 +1,6 @@
 name: Build non-CUDA options
 
-on: [push]
+on: push
 
 env:
   option_path: options/options_opencv4.9.0_contrib_vc16.txt
@@ -42,3 +42,17 @@ jobs:
       with:
         name: Build artifact
         path: install
+
+    - name: Create Tarball
+      if: startsWith(github.ref, 'refs/tags/')
+      run: |
+        asset_name=opencv-${{github.ref.name}}-${{ matrix.os }}.tar.gz
+        tar -czvf ${asset_name} -C install
+        echo "ASSET_NAME=${asset_name}" >> $GITHUB_ENV
+
+    - name: Upload Release Asset
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: ${{ env.ASSET_NAME }}
+
