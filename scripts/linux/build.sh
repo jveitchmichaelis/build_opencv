@@ -1,6 +1,5 @@
 #!/bin/bash
-# DO NOT USE
-# WORK IN PROGRESS
+# Seems to work!
 
 SCRIPTPATH="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 cd $SCRIPTPATH/../..
@@ -211,12 +210,13 @@ if [ "$custom_build_options" == "NA" ]; then
     fi
 
     # install deps
-    sudo apt-get install libjpeg-dev libtiff-dev libpng-dev
-    sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev libv4l-dev
-    sudo apt-get install libxvidcore-dev libx264-dev
-    sudo apt-get install libgtk-3-dev
-    sudo apt-get install build-essential cmake pkg-config
-    sudo apt-get install libatlas-base-dev gfortran
+    export DEBIAN_FRONTEND=noninteractive
+    sudo apt-get install -y --no-install-recommends libjpeg-dev libtiff-dev libpng-dev
+    sudo apt-get install -y --no-install-recommends libavcodec-dev libavformat-dev libswscale-dev libv4l-dev
+    sudo apt-get install -y --no-install-recommends libxvidcore-dev libx264-dev
+    sudo apt-get install -y --no-install-recommends libgtk-3-dev
+    sudo apt-get install -y --no-install-recommends build-essential cmake pkg-config
+    sudo apt-get install -y --no-install-recommends libatlas-base-dev gfortran
 
     # build opencv release
     cd $build_release_folder

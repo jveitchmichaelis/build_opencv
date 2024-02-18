@@ -8,7 +8,7 @@ fi
 
 # Tested inside Docker with very sparse images, where wget etc may not be installed
 apt-get update
-apt-get install -y lsb-release wget linux-headers-generic
+apt-get install -y --no-install-recommends lsb-release wget linux-headers-generic
 
 # Automatically detect the distribution and architecture
 distro=$(lsb_release -si | tr '[:upper:]' '[:lower:]')$(lsb_release -sr | tr -d '.')
@@ -22,7 +22,7 @@ fi
 # From Lunar onwards, CUDA is present in the main package repo
 ubuntu_version=$(echo $distro | sed s/ubuntu//g)
 if [ $ubuntu_version -ge 2300 ]; then
-    apt-get -y install nvidia-cudnn
+    apt-get install --no-install-recommends -y nvidia-cudnn
 else
     # Download the CUDA keyring package
     wget "https://developer.download.nvidia.com/compute/cuda/repos/$distro/$arch/cuda-keyring_1.1-1_all.deb"
@@ -36,5 +36,5 @@ else
     # Clean up the downloaded package
     rm cuda-keyring_1.1-1_all.deb
 
-    apt-get install -y libcudnn8 libcudnn8-dev
+    apt-get install --no-install-recommends -y libcudnn8 libcudnn8-dev
 fi

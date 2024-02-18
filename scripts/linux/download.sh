@@ -103,6 +103,9 @@ echo "custom_build_options:$custom_build_options"
 
 echo "================"
 
+# If in a container, sometimes this is not installed
+apt-get install -y --no-install-recommends git
+
 # download opencv repo
 git clone https://github.com/opencv/opencv.git --depth 1 -b $opencv_version
 if [ "$with_contrib" = "true" ]; then
