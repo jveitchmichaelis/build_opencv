@@ -6,10 +6,12 @@ env:
   option_path: options/options_opencv4.9.0_contrib_cuda_cudnn_vc15.txt
 jobs:    
   build-linux:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [ubuntu-20.04, ubuntu-22.04, ubuntu-23.04]
+        os: ["ubuntu:20.04", "ubuntu:22.04", "ubuntu:23.04"]
+    container:
+      image: ${{matrix.os}}
     steps:
     - name: Free Disk Space (Ubuntu)
       uses: jlumbroso/free-disk-space@main
@@ -22,6 +24,11 @@ jobs:
         docker-images: true
         swap-storage: true
     - uses: actions/checkout@v2
+
+    - name: Setup things in container
+      run: |
+        apt update
+        apt install -y sudo wget git build-essential
     
     - name: Download CUDA
       working-directory: scripts/linux

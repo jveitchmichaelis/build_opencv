@@ -25,11 +25,19 @@ jobs:
         path: install
   
   build-linux:
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: [ubuntu-20.04, ubuntu-22.04, ubuntu-23.04]
+        os: ["ubuntu:20.04", "ubuntu:22.04", "ubuntu:23.04"]
+    container:
+      image: ${{matrix.os}}
+      options: --privileged
     steps:
+    - name: Setup things in container
+      run: |
+        apt update
+        apt install -y sudo wget git build-essential
+
     - uses: actions/checkout@v2
     - name: Download OpenCV repo/s
       run: |
