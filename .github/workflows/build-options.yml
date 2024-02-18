@@ -9,6 +9,9 @@ jobs:
   build-windows:
     runs-on: windows-latest
     steps:
+    - uses: ilammy/msvc-dev-cmd@v1.4.1
+      with:
+        toolset: 16.0
     - uses: actions/checkout@v2
     - name: Download OpenCV repo/s
       working-directory: scripts/windows
@@ -28,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: ["ubuntu:20.04", "ubuntu:22.04", "ubuntu:23.04"]
+        os: ["ubuntu:20.04", "ubuntu:22.04", "ubuntu:23.04", "ubuntu:23.10"]
     container:
       image: ${{matrix.os}}
       options: --privileged
