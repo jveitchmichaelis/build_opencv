@@ -5,29 +5,6 @@ on: push
 env:
   option_path: options/options_opencv4.9.0_contrib_cuda_cudnn_vc15.txt
 jobs:
-  build-windows:
-    runs-on: windows-2019
-    steps:
-        - uses: actions/checkout@v2
-        - uses: Jimver/cuda-toolkit@v0.2.14
-          id: cuda-toolkit
-          with:
-            cuda: '12.3.2'
-        - uses: ilammy/msvc-dev-cmd@v1.4.1
-          with:
-            toolset: 16.0
-
-        - name: Download OpenCV repo/s
-          working-directory: scripts/windows
-          shell: cmd
-          run: .\download.bat options\options_opencv4.9.0_contrib_cuda_vc16.txt
-
-        - name: Build OpenCV
-          working-directory: scripts/windows
-          shell: cmd
-          run: .\build.bat options\options_opencv4.9.0_contrib_cuda_vc16.txt
-
-        
   build-linux:
     runs-on: ubuntu-latest
     strategy:
