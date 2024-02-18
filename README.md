@@ -7,6 +7,8 @@ Easy build OpenCV.
 ## Releases
 To save you some time checkout if the pre-built opencv binaries in releases of this repo for the configuration you are looking for first! [Releases](https://github.com/i3drobotics/build_opencv/releases)
 
+These releases are built via Github's CI for various operating systems (currently Ubuntu with CUDA support).
+
 ## About
 Scripts are provided in this repository to make building opencv from source simple and pain free.
 While a lot of the options provided here are the same as running cmake this approach helps to avoid missing to tick an important box or getting a path wrong by providing options in an easy to read text file. Also each option is documented in this readme along with some notes on possible issues associated with it.
@@ -17,7 +19,7 @@ While a lot of the options provided here are the same as running cmake this appr
  - visual studio
 
 ## Run
-Use the 'run.bat' script to download and build opencv. One script does everything!. This will use the options defined in 'options.txt' to define what to download and build. Once complete a folder named 'install' will have the full opencv install. 
+Use the 'run.bat' script to download and build opencv. One script does everything!. This will use the options defined in 'options.txt' to define what to download and build. Once complete a folder named 'install' will have the full opencv install.
 
 ## Download
 Use the 'download.bat' script to download opencv. This will use the options defined in 'options.txt' to define what to download. Once complete opencv (and opencv_contrib if required) will be downloaded and ready to build.
@@ -79,6 +81,9 @@ As python does not include debug dlls by default when installed a debug build of
 The python version will automatically be selected from whatever is installed. This is handelled internally by the opencv cmake. 
 ### What version of CUDA is used in opencv builds
 CUDA version is selected automically based on whatever is installed. This is handelled insternally by the opencv cmake.
+
+For CI builds with Ubuntu, we choose CUDA builds that are available through package managers. On recent versions of Ubuntu (e.g. 23.04+), CUDA 12 is directly available through apt. CUDNN 8 is currently selected for compatibility.
+
 ### Can this be used with other OS
 All the scripts in the repository are currently Windows batch files. This will be extended to other languages soon. Work has been started on linux scripts however they are not currently ready to use. (Checkout scripts/linux to see the current progress)
 ### Where is java
