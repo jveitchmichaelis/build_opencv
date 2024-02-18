@@ -7,7 +7,7 @@ env:
 
 jobs:    
   build-windows:
-    runs-on: windows-latest
+    runs-on: windows-2019
     steps:
     - uses: ilammy/msvc-dev-cmd@v1.4.1
       with:
@@ -38,8 +38,11 @@ jobs:
     steps:
     - name: Setup things in container
       run: |
-        apt update
-        apt install -y sudo wget git build-essential
+        apt-get update
+        apt-get install -y --no-install-recommends sudo wget git build-essential debconf-utils apt-utils dialog ca-certificates
+        echo 'tzdata tzdata/Areas select Etc' | sudo debconf-set-selections
+        echo 'tzdata tzdata/Zones/Etc select UTC' | sudo debconf-set-selections
+        DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
 
     - uses: actions/checkout@v2
     - name: Download OpenCV repo/s

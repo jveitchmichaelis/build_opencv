@@ -211,18 +211,25 @@ if [ "$custom_build_options" == "NA" ]; then
 
     # install deps
     export DEBIAN_FRONTEND=noninteractive
+
     sudo apt-get install -y --no-install-recommends libjpeg-dev libtiff-dev libpng-dev
     sudo apt-get install -y --no-install-recommends libavcodec-dev libavformat-dev libswscale-dev libv4l-dev
     sudo apt-get install -y --no-install-recommends libxvidcore-dev libx264-dev
     sudo apt-get install -y --no-install-recommends libgtk-3-dev
     sudo apt-get install -y --no-install-recommends build-essential cmake pkg-config
-    sudo apt-get install -y --no-install-recommends libatlas-base-dev gfortran gcc-11 g++-11
+    sudo apt-get install -y --no-install-recommends libatlas-base-dev gfortran
 
     # build opencv release
     cd $build_release_folder
     
-    export CC=gcc-11
-    export CXX=g++-11
+    GCC_VERSION=$(gcc -dumpversion | cut -d. -f1)
+    if [[ "$GCC_VERSION" -gt 11 ]]; then
+        sudo apt-get install -y --no-install-recommends  gcc-11 g++-11
+        echo "Setting GCC to version 11"
+        export CC=gcc-11
+        export CXX=g++-11
+    fi
+
     cmake \
       -D CMAKE_BUILD_TYPE=RELEASE \
       -D CMAKE_INSTALL_PREFIX=$install_release_folder \

@@ -27,9 +27,12 @@ jobs:
 
     - name: Setup things in container
       run: |
-        apt update
-        apt install -y sudo wget git build-essential
-    
+        apt-get update
+        apt-get install -y --no-install-recommends sudo wget git build-essential debconf-utils apt-utils dialog
+        echo 'tzdata tzdata/Areas select Etc' | sudo debconf-set-selections
+        echo 'tzdata tzdata/Zones/Etc select UTC' | sudo debconf-set-selections
+        DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
+        
     - name: Download CUDA
       working-directory: scripts/linux
       run: |
