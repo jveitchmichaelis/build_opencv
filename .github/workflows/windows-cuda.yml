@@ -12,11 +12,11 @@ jobs:
     - name: Set up MSBuild path
       uses: microsoft/setup-msbuild@v1.0.2
 
-    - name: Download cuDNN installer
-      run: Invoke-WebRequest -Uri "${{ env.CUDNN_URL }}" -OutFile "cudnn_installer.exe"
+    #- name: Download cuDNN installer
+    #  run: Invoke-WebRequest -Uri "${{ env.CUDNN_URL }}" -OutFile "cudnn_installer.exe"
 
-    - name: Install cuDNN
-      run: Start-Process -FilePath "cudnn_installer.exe" -ArgumentList '/S' -Wait
+    #- name: Install cuDNN
+    #  run: Start-Process -FilePath "cudnn_installer.exe" -ArgumentList '/S' -Wait
     
     - name: Install CUDA 
       uses: Jimver/cuda-toolkit@v0.2.14
