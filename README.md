@@ -1,13 +1,16 @@
 # Build OpenCV
-[![Build Ubuntu/CUDA](https://github.com/jveitchmichaelis/build_opencv/actions/workflows/build-cuda-options.yml/badge.svg?branch=auto_release)](https://github.com/jveitchmichaelis/build_opencv/actions/workflows/build-cuda-options.yml)
-[![Build Ubuntu](https://github.com/jveitchmichaelis/build_opencv/actions/workflows/build-options.yml/badge.svg?branch=auto_release)](https://github.com/jveitchmichaelis/build_opencv/actions/workflows/build-options.yml)
+[![Build Linux](https://github.com/jveitchmichaelis/build_opencv/actions/workflows/linux.yml/badge.svg?branch=auto_release)](https://github.com/jveitchmichaelis/build_opencv/actions/workflows/linux.yml)
+[![Build Linux CUDA/Cudnn](https://github.com/jveitchmichaelis/build_opencv/actions/workflows/linux-cuda.yml/badge.svg?branch=auto_release)](https://github.com/jveitchmichaelis/build_opencv/actions/workflows/linux-cuda.yml)
 
-Easy build OpenCV.
+[![Build Windows](https://github.com/jveitchmichaelis/build_opencv/actions/workflows/windows.yml/badge.svg?branch=auto_release)](https://github.com/jveitchmichaelis/build_opencv/actions/workflows/windows.yml)
+[![Build Windows CUDA](https://github.com/jveitchmichaelis/build_opencv/actions/workflows/windows-cuda.yml/badge.svg?branch=auto_release)](https://github.com/jveitchmichaelis/build_opencv/actions/workflows/windows-cuda.yml)
+
+Easy-build OpenCV.
 
 ## Releases
 To save you some time checkout if the pre-built opencv binaries in releases of this repo for the configuration you are looking for first! [Releases](https://github.com/i3drobotics/build_opencv/releases)
 
-These releases are built via Github's CI for various operating systems (currently Ubuntu with CUDA support).
+These releases are built via Github's CI for various operating systems (currently Ubuntu and Windows with CUDA and Cudnn support). Mac builds are not currently provided as Homebrew generally provides a good install experience, and CUDA support is generaly not relevant on OS X.
 
 ## About
 Scripts are provided in this repository to make building opencv from source simple and pain free.

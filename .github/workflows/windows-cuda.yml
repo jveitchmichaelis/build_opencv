@@ -6,37 +6,21 @@ jobs:
   build-windows:
     runs-on: windows-2019
     env:
-        CUDNN_URL: https://developer.nvidia.com/downloads/compute/cudnn/secure/8.9.7/local_installers/12.x/cudnn-windows-x86_64-8.9.7.29_cuda12-archive.zip
+        CUDNN_URL: https://developer.download.nvidia.com/compute/redist/cudnn/v8.8.0/local_installers/12.0/cudnn_8.8.0.121_windows.exe
     steps:
 
     - name: Set up MSBuild path
       uses: microsoft/setup-msbuild@v1.0.2
 
-    - uses: Jimver/cuda-toolkit@v0.2.14
-      id: cuda-toolkit
+    - name: Download cuDNN installer
+      run: Invoke-WebRequest -Uri "${{ env.CUDNN_URL }}" -OutFile "cudnn_installer.exe"
 
-    - name: Download cuDNN Archive
-      shell: powershell
-      run: |
-        curl -L "${{ env.CUDNN_URL }}" -o cudnn.zip
+    - name: Install cuDNN
+      run: Start-Process -FilePath "cudnn_installer.exe" -ArgumentList '/S' -Wait
     
-    - name: Extract cuDNN Archive
-      shell: powershell
-      run: |
-        Expand-Archive -Path cudnn.zip -DestinationPath .\cudnn
-
-    - name: Copy cuDNN files
-      shell: powershell
-      run: |
-        New-Item -ItemType Directory -Force -Path "C:\Program Files\NVIDIA\CUDNN\v8.x"
-        Copy-Item -Path .\cudnn\bin\* -Destination "C:\Program Files\NVIDIA\CUDNN\v8.x\bin" -Recurse -Force
-        Copy-Item -Path .\cudnn\include\* -Destination "C:\Program Files\NVIDIA\CUDNN\v8.x\include" -Recurse -Force
-        Copy-Item -Path .\cudnn\lib\x64\* -Destination "C:\Program Files\NVIDIA\CUDNN\v8.x\lib\x64" -Recurse -Force
-
-    - name: Set PATH Environment Variable
-      run: |
-        echo "C:\Program Files\NVIDIA\CUDNN\v8.x\bin" | Out-File -Append -FilePath $env:GITHUB_PATH
-        echo "C:\Program Files\NVIDIA\CUDNN\v8.x\lib\x64" | Out-File -Append -FilePath $env:GITHUB_PATH
+    - name: Install CUDA 
+      uses: Jimver/cuda-toolkit@v0.2.14
+      id: cuda-toolkit
 
     - uses: actions/checkout@v2
 
