@@ -12,9 +12,6 @@ jobs:
       uses: microsoft/setup-msbuild@v1.0.2
     - uses: Jimver/cuda-toolkit@v0.2.14
       id: cuda-toolkit
-      with:
-          sub-packages: '["nvcc"]'
-          non-cuda-sub-packages: '["libcublas"]'
     - uses: actions/checkout@v2
     - name: Download OpenCV repo/s
       working-directory: scripts/windows
