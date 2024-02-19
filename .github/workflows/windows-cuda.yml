@@ -1,0 +1,57 @@
+name: Build Windows CUDA
+
+on: push
+
+jobs:
+  build-windows:
+    runs-on: windows-2019
+    env:
+        CUDNN_URL: https://developer.nvidia.com/downloads/compute/cudnn/secure/8.9.7/local_installers/12.x/cudnn-windows-x86_64-8.9.7.29_cuda12-archive.zip
+    steps:
+
+    - name: Set up MSBuild path
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - uses: Jimver/cuda-toolkit@v0.2.14
+      id: cuda-toolkit
+
+    - name: Download cuDNN Archive
+      shell: powershell
+      run: |
+        curl -L "${{ env.CUDNN_URL }}" -o cudnn.zip
+    
+    - name: Extract cuDNN Archive
+      shell: powershell
+      run: |
+        Expand-Archive -Path cudnn.zip -DestinationPath .\cudnn
+
+    - name: Copy cuDNN files
+      shell: powershell
+      run: |
+        New-Item -ItemType Directory -Force -Path "C:\Program Files\NVIDIA\CUDNN\v8.x"
+        Copy-Item -Path .\cudnn\bin\* -Destination "C:\Program Files\NVIDIA\CUDNN\v8.x\bin" -Recurse -Force
+        Copy-Item -Path .\cudnn\include\* -Destination "C:\Program Files\NVIDIA\CUDNN\v8.x\include" -Recurse -Force
+        Copy-Item -Path .\cudnn\lib\x64\* -Destination "C:\Program Files\NVIDIA\CUDNN\v8.x\lib\x64" -Recurse -Force
+
+    - name: Set PATH Environment Variable
+      run: |
+        echo "C:\Program Files\NVIDIA\CUDNN\v8.x\bin" | Out-File -Append -FilePath $env:GITHUB_PATH
+        echo "C:\Program Files\NVIDIA\CUDNN\v8.x\lib\x64" | Out-File -Append -FilePath $env:GITHUB_PATH
+
+    - uses: actions/checkout@v2
+
+    - name: Download OpenCV repo/s
+      working-directory: scripts/windows
+      shell: cmd
+      run: .\download.bat options\options_opencv4.9.0_contrib_vc16.txt
+
+    - name: Build OpenCV
+      working-directory: scripts/windows
+      shell: cmd
+      run: .\build.bat options\options_opencv4.9.0_contrib_vc16.txt
+
+    - name: Upload Release Asset
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: install

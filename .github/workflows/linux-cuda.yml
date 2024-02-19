@@ -1,38 +1,15 @@
-name: Build CUDA options
+name: Build Linux CUDA/Cudnn
 
 on: push
 
 env:
   option_path: options/options_opencv4.9.0_contrib_cuda_cudnn_vc15.txt
 jobs:
-  build-windows:
-    runs-on: windows-2019
-    steps:
-    - name: Set up MSBuild path
-      uses: microsoft/setup-msbuild@v1.0.2
-    - uses: Jimver/cuda-toolkit@v0.2.14
-      id: cuda-toolkit
-    - uses: actions/checkout@v2
-    - name: Download OpenCV repo/s
-      working-directory: scripts/windows
-      shell: cmd
-      run: .\download.bat options\options_opencv4.9.0_contrib_vc16.txt
-    - name: Build OpenCV
-      working-directory: scripts/windows
-      shell: cmd
-      run: .\build.bat options\options_opencv4.9.0_contrib_vc16.txt
-
-    - name: Upload Release Asset
-      if: startsWith(github.ref, 'refs/tags/')
-      uses: softprops/action-gh-release@v1
-      with:
-        files: install
-
   build-linux:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        os: ["ubuntu:20.04", "ubuntu:22.04", "ubuntu:23.04", "ubuntu:23.10"]
+        os: ["ubuntu:20.04","ubuntu:22.04", "ubuntu:23.04", "ubuntu:23.10"]
     container:
       image: ${{matrix.os}}
     steps:

@@ -1,0 +1,22 @@
+name: Build Windows
+
+on: push
+
+jobs:    
+  build-windows:
+    runs-on: "windows-2019"
+    steps:
+    - name: Set up MSBuild path
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - uses: actions/checkout@v2
+
+    - name: Download OpenCV repo/s
+      working-directory: scripts/windows
+      shell: cmd
+      run: .\download.bat options\options_opencv4.9.0_contrib_vc16.txt
+
+    - name: Build OpenCV
+      working-directory: scripts/windows
+      shell: cmd
+      run: .\build.bat options\options_opencv4.9.0_contrib_vc16.txt
