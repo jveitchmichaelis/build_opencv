@@ -32,7 +32,7 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/')
       uses: softprops/action-gh-release@v1
       with:
-        files: opencv-${{github.ref.name}}-windows.zip
+        files: opencv-${{github.ref_name}}-windows.zip
         tag_name: ${{ github.ref_name }}
         name: ${{ github.ref_name }}
         draft: false

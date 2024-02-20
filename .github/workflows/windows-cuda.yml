@@ -39,7 +39,7 @@ jobs:
       with:
         path: build
 
-    - run: Compress-Archive -Path install/* -Destination opencv-${{github.ref.name}}-windows-cuda12.zip
+    - run: Compress-Archive -Path install/* -Destination opencv-${{github.ref_name}}-windows-cuda12.zip
 
     - name: Upload Release Asset
       if: startsWith(github.ref, 'refs/tags/')
@@ -51,7 +51,7 @@ jobs:
       if: startsWith(github.ref, 'refs/tags/')
       uses: softprops/action-gh-release@v1
       with:
-        files: opencv-${{github.ref.name}}-windows-cuda12.zip
+        files: opencv-${{github.ref_name}}-windows-cuda12.zip
         tag_name: ${{ github.ref_name }}
         name: ${{ github.ref_name }}
         draft: false
