@@ -72,7 +72,7 @@ jobs:
       run: |
         asset_name=opencv-${{github.ref_name}}-${{ matrix.os }}-cuda${CUDA_VERSION}-cudnn${CUDNN_VERSION}.tar.gz
         asset_name=$(echo $asset_name | sed 's/:/-/g')
-        tar -cvf ${asset_name} install
+        tar -czf ${asset_name} install
         echo "ASSET_NAME=${asset_name}" >> $GITHUB_ENV
 
     - name: Upload Release Asset
