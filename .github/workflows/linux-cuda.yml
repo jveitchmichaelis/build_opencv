@@ -42,6 +42,7 @@ jobs:
       run: |
         export PATH=/usr/local/cuda*/bin${PATH:+:${PATH}}
         echo $PATH
+        echo $(locate bin/nvcc)
         nvcc --version
         if [ $? -ne 0 ]; then
           echo "NVCC is not installed or not found in PATH."
