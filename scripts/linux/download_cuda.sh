@@ -42,11 +42,3 @@ else
     # Clean up the downloaded package
     rm cuda-keyring_1.1-1_all.deb
 fi
-
-nvcc --version
-if [ $? -ne 0 ]; then
-  echo "NVCC is not installed or not found in PATH."
-  exit 1
-else
-  echo "NVCC is installed."
-fi

@@ -37,7 +37,17 @@ jobs:
       working-directory: scripts/linux
       run: |
         sudo ./download_cuda.sh
-    
+
+    - name: Check CUDA
+      run: |
+        nvcc --version
+        if [ $? -ne 0 ]; then
+          echo "NVCC is not installed or not found in PATH."
+          exit 1
+        else
+          echo "NVCC is installed."
+        fi
+
     - name: Download CUDNN8
       working-directory: scripts/linux
       run: |
