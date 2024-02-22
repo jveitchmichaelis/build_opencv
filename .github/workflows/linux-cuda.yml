@@ -38,11 +38,6 @@ jobs:
       run: |
         sudo ./download_cuda.sh
 
-    - name: Check CUDA
-      run: |
-        apt-get install -y --no-install-recommends locate
-        echo "NVCC: " $(locate nvcc)
-
     - name: Download CUDNN8
       working-directory: scripts/linux
       run: |
