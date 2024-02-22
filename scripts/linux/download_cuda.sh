@@ -41,6 +41,4 @@ else
 
     # Clean up the downloaded package
     rm cuda-keyring_1.1-1_all.deb
-
-    echo $(dpkg -L cuda-toolkit-12)
 fi
