@@ -50,9 +50,7 @@ jobs:
     - name: Determine CUDA and cuDNN Versions
       run: |
         echo "CUDA_VERSION=$(nvcc --version | grep release | sed 's/.*release //' | sed 's/,.*//')" >> $GITHUB_ENV
-        echo "CUDNN_VERSION=$(cat /usr/include/x86_64-linux-gnu/cudnn_version.h | grep CUDNN_MAJOR -A 2 | sed 's/#define CUDNN_MAJOR //' | tr '\n' '.' | sed 's/\.$//')" >> $GITHUB_ENV
-        echo $CUDNN_VERSION
-        echo $CUDA_VERSION
+        echo "CUDNN_VERSION=$(dpkg -l | grep -E 'libcudnn|nvidia-cudnn' | awk '{print $3}' | cut -d- -f1)" >> $GITHUB_ENV
     
     - name: Patch stdlib
       run: |
