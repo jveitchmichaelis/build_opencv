@@ -40,6 +40,7 @@ jobs:
 
     - name: Check CUDA
       run: |
+        apt-get install -y --no-install-recommends locate
         export PATH=/usr/local/cuda*/bin${PATH:+:${PATH}}
         echo $PATH
         echo $(locate bin/nvcc)
