@@ -41,16 +41,7 @@ jobs:
     - name: Check CUDA
       run: |
         apt-get install -y --no-install-recommends locate
-        export PATH=/usr/local/cuda*/bin${PATH:+:${PATH}}
-        echo $PATH
-        echo $(locate bin/nvcc)
-        nvcc --version
-        if [ $? -ne 0 ]; then
-          echo "NVCC is not installed or not found in PATH."
-          exit 1
-        else
-          echo "NVCC is installed."
-        fi
+        echo "NVCC: " $(locate nvcc)
 
     - name: Download CUDNN8
       working-directory: scripts/linux
@@ -63,7 +54,7 @@ jobs:
 
     - name: Determine CUDA and cuDNN Versions
       run: |
-        echo "CUDA_VERSION=$(nvcc --version | grep release | sed 's/.*release //' | sed 's/,.*//')" >> $GITHUB_ENV
+        #echo "CUDA_VERSION=$(nvcc --version | grep release | sed 's/.*release //' | sed 's/,.*//')" >> $GITHUB_ENV
         echo "CUDNN_VERSION=$(dpkg -l | grep -E 'libcudnn|nvidia-cudnn' | awk '{print $3}' | cut -d- -f1)" >> $GITHUB_ENV
     
     - name: Patch stdlib
@@ -82,7 +73,7 @@ jobs:
     - name: Create Tarball
       if: startsWith(github.ref, 'refs/tags/')
       run: |
-        asset_name=opencv-${{github.ref_name}}-${{ matrix.os }}-cuda${CUDA_VERSION}-cudnn${CUDNN_VERSION}.tar.gz
+        asset_name=opencv-${{github.ref_name}}-${{ matrix.os }}-cuda12-cudnn${CUDNN_VERSION}.tar.gz
         asset_name=$(echo $asset_name | sed 's/:/-/g')
         tar -czf ${asset_name} install
         echo "ASSET_NAME=${asset_name}" >> $GITHUB_ENV
