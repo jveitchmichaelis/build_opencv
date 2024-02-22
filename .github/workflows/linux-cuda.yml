@@ -47,11 +47,6 @@ jobs:
       run: |
         scripts/linux/download.sh $option_path
 
-    - name: Determine CUDA and cuDNN Versions
-      run: |
-        #echo "CUDA_VERSION=$(nvcc --version | grep release | sed 's/.*release //' | sed 's/,.*//')" >> $GITHUB_ENV
-        echo "CUDNN_VERSION=$(dpkg -l | grep -E 'libcudnn|nvidia-cudnn' | awk '{print $3}' | cut -d- -f1 | tr '.' '_')" >> $GITHUB_ENV
-    
     - name: Patch stdlib
       run: |
         sudo sed -i '/_S_nothrow_init<.*>/ s/^/    \/\/ /' /usr/include/c++/*/bits/std_function.h
@@ -68,7 +63,7 @@ jobs:
     - name: Create Tarball
       if: startsWith(github.ref, 'refs/tags/')
       run: |
-        asset_name=opencv-${{github.ref_name}}-${{ matrix.os }}-cuda12-cudnn${CUDNN_VERSION}.tar.gz
+        asset_name=opencv-${{github.ref_name}}-${{ matrix.os }}-cuda12-cudnn8.tar.gz
         asset_name=$(echo $asset_name | sed 's/:/-/g')
         tar -czf ${asset_name} install
         echo "ASSET_NAME=${asset_name}" >> $GITHUB_ENV
