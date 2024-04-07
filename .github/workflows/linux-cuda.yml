@@ -46,7 +46,7 @@ jobs:
     - name: Determine CUDA and cuDNN Versions
       run: |
         # Extract CUDA version
-        CUDA_VERSION=$(dpkg -l | grep '^ii' | grep -E 'nvidia-cuda-toolkit|cuda-toolkit' | awk '{print $3}' | awk -F'[.~+]' '{print $1 "." $2}' | sort -u | head -n 1)
+        CUDA_VERSION=$(dpkg -l | grep '^ii' | grep -E 'cuda-toolkit-[0-9]*-[0-9]*|nvidia-cuda-toolkit-[0-9]*-[0-9]*' | awk '{print $3}' | awk -F'[.~+]' '{print $1 "." $2}' | sort -u | head -n 1)
         echo "Extracted CUDA Version: $CUDA_VERSION"
         
         # Extract cuDNN version

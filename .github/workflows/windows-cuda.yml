@@ -56,15 +56,15 @@ jobs:
     # Calculate SHA256 Checksum
     - name: Calculate SHA256 Checksum
       run: |
-        echo "Calculating SHA256 for ${{ env.ASSET_NAME }}"
-        sha256sum ${{ env.ASSET_NAME }} > ${{ env.ASSET_NAME }}.sha256
+        echo "Calculating SHA256 foropencv-${{github.ref_name}}-windows-cuda12.zip"
+        sha256sum opencv-${{github.ref_name}}-windows-cuda12.zip > opencv-${{github.ref_name}}-windows-cuda12.zip.sha256
       shell: bash
 
     - name: Upload SHA256 Checksum File
       if: startsWith(github.ref, 'refs/tags/')
       uses: softprops/action-gh-release@v1
       with:
-        files: ${{ env.ASSET_NAME }}.sha256
+        files: opencv-${{github.ref_name}}-windows-cuda12.zip.sha256
         tag_name: ${{ github.ref_name }}
         name: ${{ github.ref_name }} SHA256 Checksum
         draft: false
