@@ -84,6 +84,3 @@ jobs:
         prerelease: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Compute checksums
-      uses: wangzuo/action-release-checksums@v1

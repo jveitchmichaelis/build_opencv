@@ -36,7 +36,7 @@ else
     apt-get update
 
     # Install CUDA
-    apt-get install -y --no-install-recommends cuda-toolkit-12
+    apt-get install -y --no-install-recommends cuda-toolkit-12-0
     apt-get install -y --no-install-recommends nvidia-gds
 
     # Clean up the downloaded package
