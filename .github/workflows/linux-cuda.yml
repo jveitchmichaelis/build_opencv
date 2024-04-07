@@ -108,7 +108,7 @@ jobs:
       with:
         files: ${{ env.ASSET_NAME }}.sha256
         tag_name: ${{ github.ref_name }}
-        name: ${{ github.ref_name }} SHA256 Checksum
+        name: ${{ github.ref_name }}
         draft: false
         prerelease: true
       env:
