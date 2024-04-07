@@ -36,8 +36,8 @@ else
     apt-get update
 
     # Install CUDA
-    apt-get install -y --no-install-recommends cuda-toolkit-12-0
-    apt-get install -y --no-install-recommends nvidia-gds-12-0
+    apt-get install -y --no-install-recommends cuda-toolkit-12-2
+    apt-get install -y --no-install-recommends nvidia-gds-12-2
 
     # Clean up the downloaded package
     rm cuda-keyring_1.1-1_all.deb
