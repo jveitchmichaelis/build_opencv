@@ -45,9 +45,19 @@ jobs:
 
     - name: Determine CUDA and cuDNN Versions
       run: |
-        echo "CUDA_VERSION=$(dpkg -l | grep -E 'nvidia-cuda-toolkit|cuda-toolkit' | awk '{print $3}' | awk -F'[.~+]' '{print $1 "." $2}' | sort -u)" >> $GITHUB_ENV
-        echo "CUDNN_VERSION=$(dpkg -l | grep -E 'libcudnn|nvidia-cudnn' | awk '{print $3}' | awk -F'[.~+]' '{print $1 "." $2}' | sort -u)" >> $GITHUB_ENV
-          
+        # Extract CUDA version
+        CUDA_VERSION=$(dpkg -l | grep -E 'nvidia-cuda-toolkit|cuda-toolkit' | awk '{print $3}' | awk -F'[.~+]' '{print $1 "." $2}' | sort -u)
+        echo "Extracted CUDA Version: $CUDA_VERSION"
+        
+        # Extract cuDNN version
+        CUDNN_VERSION=$(dpkg -l | grep -E 'libcudnn|nvidia-cudnn' | awk '{print $3}' | awk -F'[.~+]' '{print $1 "." $2}' | sort -u)
+        echo "Extracted CUDNN Version: $CUDNN_VERSION"
+        
+        # Set environment variables properly
+        echo "CUDA_VERSION=$CUDA_VERSION" >> $GITHUB_ENV
+        echo "CUDNN_VERSION=$CUDNN_VERSION" >> $GITHUB_ENV
+      shell: bash
+
     - name: Download OpenCV repo/s
       run: |
         scripts/linux/download.sh $option_path
