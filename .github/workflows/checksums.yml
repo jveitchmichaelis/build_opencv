@@ -1,0 +1,14 @@
+name: Checksums
+
+# run after validate workflow has completed and the current branch is 'beta'
+on:
+    workflow_run:
+        workflows: ['linux-cuda', 'linux', 'windows']
+        types: [completed]
+
+jobs:
+    compute_checksums:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Compute checksums
+          uses: wangzuo/action-release-checksums@v1
