@@ -46,11 +46,11 @@ jobs:
     - name: Determine CUDA and cuDNN Versions
       run: |
         # Extract CUDA version
-        CUDA_VERSION=$(dpkg -l | grep -E 'nvidia-cuda-toolkit|cuda-toolkit' | awk '{print $3}' | awk -F'[.~+]' '{print $1 "." $2}' | sort -u)
+        CUDA_VERSION=$(dpkg -l | grep '^ii' | grep -E 'nvidia-cuda-toolkit|cuda-toolkit' | awk '{print $3}' | awk -F'[.~+]' '{print $1 "." $2}' | sort -u)
         echo "Extracted CUDA Version: $CUDA_VERSION"
         
         # Extract cuDNN version
-        CUDNN_VERSION=$(dpkg -l | grep -E 'libcudnn|nvidia-cudnn' | awk '{print $3}' | awk -F'[.~+]' '{print $1 "." $2}' | sort -u)
+        CUDNN_VERSION=$(dpkg -l | grep '^ii' | grep -E 'libcudnn|nvidia-cudnn' | awk '{print $3}' | awk -F'[.~+]' '{print $1 "." $2}' | sort -u)
         echo "Extracted CUDNN Version: $CUDNN_VERSION"
         
         # Set environment variables properly
