@@ -84,3 +84,22 @@ jobs:
         prerelease: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    # Calculate SHA256 Checksum
+    - name: Calculate SHA256 Checksum
+      run: |
+        echo "Calculating SHA256 for ${{ env.ASSET_NAME }}"
+        sha256sum ${{ env.ASSET_NAME }} > ${{ env.ASSET_NAME }}.sha256
+      shell: bash
+
+    - name: Upload SHA256 Checksum File
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: ${{ env.ASSET_NAME }}.sha256
+        tag_name: ${{ github.ref_name }}
+        name: ${{ github.ref_name }} SHA256 Checksum
+        draft: false
+        prerelease: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
