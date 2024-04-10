@@ -121,12 +121,10 @@ if [ "$custom_build_options" == "NA" ]; then
     fi
 
     # define build folders
-    build_release_folder=$build_folder
-    
     if [ "$with_debug" == "true" ]; then
-        build_release_folder=$build_folder/release
+        build_debug_folder=$build_folder/debug
     fi
-    build_debug_folder=$build_folder/debug
+    build_release_folder=$build_folder/release
 
     if [ "$with_debug" == "true" ]; then
         # create release and debug folders
@@ -138,9 +136,9 @@ if [ "$custom_build_options" == "NA" ]; then
     install_folder=$PWD/install
     install_release_folder=$install_folder
     if [ "$with_debug" == "true" ]; then
-        install_release_folder=$install_folder/release
+        install_release_folder=$install_folder/debug
     fi
-    install_debug_folder=$install_folder/debug
+    install_debug_folder=$install_folder/release
 
     # clean install folder
     if [ "$clean_on_build" == "true" ]; then
