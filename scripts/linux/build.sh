@@ -136,9 +136,9 @@ if [ "$custom_build_options" == "NA" ]; then
     install_folder=$PWD/install
     install_release_folder=$install_folder
     if [ "$with_debug" == "true" ]; then
-        install_release_folder=$install_folder/debug
+        install_debug_folder=$install_folder/debug
     fi
-    install_debug_folder=$install_folder/release
+    install_release_folder=$install_folder/release
 
     # clean install folder
     if [ "$clean_on_build" == "true" ]; then
@@ -218,8 +218,6 @@ if [ "$custom_build_options" == "NA" ]; then
     sudo apt-get install -y --no-install-recommends libatlas-base-dev gfortran
 
     # build opencv release
-    cd $build_release_folder
-    
     GCC_VERSION=$(gcc -dumpversion | cut -d. -f1)
     if [[ "$GCC_VERSION" -gt 11 ]]; then
         sudo apt-get install -y --no-install-recommends  gcc-11 g++-11
@@ -228,13 +226,19 @@ if [ "$custom_build_options" == "NA" ]; then
         export CXX=g++-11
     fi
 
+    if "$with_cuda" == "true" ]; then
+        export CUDNN_LIBRARY=/usr/local/cuda-12/lib64
+    fi
+
+    cd $build_release_folder
+
     cmake \
       -D CMAKE_BUILD_TYPE=RELEASE \
       -D CMAKE_INSTALL_PREFIX=$install_release_folder \
       -D BUILD_opencv_world=$cmake_build_world \
       -D WITH_CUDA=$cmake_with_cuda \
       -D ENABLE_FAST_MATH=$cmake_enable_fast_math \
-      -D CUDA_FAST_MATH=$cmake_cuda_fast_math \\
+      -D CUDA_FAST_MATH=$cmake_cuda_fast_math \
       -D CUDA_ARCH_BIN="5.0 5.2 6.0 6.1 7.0 7.5 8.0 8.6 8.9 9.0" \
       -D CUDA_ARCH_PTX="9.0" \
       -D WITH_CUBLAS=$cmake_with_cublas \
@@ -246,6 +250,10 @@ if [ "$custom_build_options" == "NA" ]; then
       -D BUILD_opencv_python2=$cmake_python_release \
       -D BUILD_EXAMPLES=$cmake_build_examples \
       $cmake_addition_build_options ../..
+
+    # install opencv release
+    make -j$((`nproc`+1)) 
+    make install
 
     if [ "$with_debug" == "true" ]; then
         # build opencv debug
@@ -268,23 +276,11 @@ if [ "$custom_build_options" == "NA" ]; then
             -D BUILD_opencv_python2=$cmake_python_debug \
             -D BUILD_EXAMPLES=$cmake_build_examples \
             $cmake_addition_build_options ../..
-    fi
 
-    if "$with_cuda" == "true" ]; then
-        export CUDNN_LIBRARY=/usr/local/cuda-12/lib64
-    fi
-
-    # install opencv release
-    cd $build_release_folder
-    make -j$((`nproc`+1)) 
-    make install
-
-    if [ "$with_debug" == "true" ]; then
-        # install opencv debug
-        cd $build_debug_folder
         make -j$((`nproc`+1))
         make install
     fi
+
 else
     # build opencv with custom build options
     cmake $custom_build_options% ../..
